@@ -58,6 +58,10 @@ const mapSqlRouter = require('./routes/mapSql');
 const userRouter = require('./routes/user');
 const selectionsRouter = require('./routes/selections');
 const commandsRouter = require('./routes/commands');
+const artefactsRouter = require('./routes/artefacts');
+const artesweepsRouter = require('./routes/artesweeps');
+const catapointsRouter = require('./routes/catapoints');
+const treasuriesRouter = require('./routes/treasuries');
 
 app.use('/settings', settingsRouter);
 app.use('/operationMeta', operationMetaRouter);
@@ -70,6 +74,10 @@ app.use('/mapSql', mapSqlRouter);
 app.use('/user', userRouter);
 app.use('/selections', selectionsRouter);
 app.use('/commands', commandsRouter);
+app.use('/artefacts', artefactsRouter);
+app.use('/artesweeps', artesweepsRouter);
+app.use('/catapoints', catapointsRouter);
+app.use('/treasuries', treasuriesRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
