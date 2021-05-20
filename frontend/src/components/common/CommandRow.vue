@@ -2,46 +2,29 @@
   <div class="command_row">
     <div class="data_item player_name">
       <a
-        :href="`https://${
-          $store.state.serverConfig.url
-        }/position_details.php?x=${
-          command.attacker.xCoord
-        }&y=${
-          command.attacker.yCoord
-        }`"
+        :href="`https://${$store.state.serverConfig.url}/position_details.php?x=${command.attacker.xCoord}&y=${command.attacker.yCoord}`"
         target="_blank"
       >
-        {{ command.attacker.villageName }} ({{ command.attacker.xCoord }}|{{ command.attacker.yCoord }})
+        {{ command.attacker.villageName }} ({{ command.attacker.xCoord }}|{{
+          command.attacker.yCoord
+        }})
       </a>
     </div>
-    <div
-      v-if="isScout"
-      class="data_item sending_time"
-    >
+    <div v-if="isScout" class="data_item sending_time">
       sends at {{ sendingTime }} to
     </div>
-    <div
-      v-if="isScout"
-      class="data_item player_name"
-    >
-      {{ command.target.villageName }} ({{ command.target.xCoord }}|{{ command.target.yCoord }}):
+    <div v-if="isScout" class="data_item player_name">
+      {{ command.target.villageName }} ({{ command.target.xCoord }}|{{
+        command.target.yCoord
+      }}):
     </div>
-    <div
-      v-if="isGhost"
-      class="data_item return_time"
-    >
+    <div v-if="isGhost" class="data_item return_time">
       is back home at {{ returnTime }}:
     </div>
-    <div
-      v-if="isScout"
-      class="data_item scout_send"
-    >
+    <div v-if="isScout" class="data_item scout_send">
       send scout at {{ scoutSendingTime }} from
     </div>
-    <div
-      v-if="isGhost"
-      class="data_item ghost_send"
-    >
+    <div v-if="isGhost" class="data_item ghost_send">
       send ghost at {{ ghostSendingTime }} from
     </div>
     <div class="data_item player_name">
@@ -49,13 +32,12 @@
     </div>
     <div class="data_item send_link">
       <a
-        :href="`https://${
-          $store.state.serverConfig.url
-        }/build.php?newdid=${
+        :href="`https://${$store.state.serverConfig.url}/build.php?newdid=${
           village.villageId
-        }&id=39&tt=2&z=${
-          coordId(command.attacker.xCoord, command.attacker.yCoord)
-        }`"
+        }&id=39&tt=2&z=${coordId(
+          command.attacker.xCoord,
+          command.attacker.yCoord
+        )}`"
         target="_blank"
       >
         -> Send troops
@@ -69,53 +51,63 @@ import {
   getSendingTime,
   getScoutSend,
   getReturnTime,
-  getGhostSend
-} from '@/util/travelTime'
-import { coordinatesToMapId } from '@/util/mapId'
+  getGhostSend,
+} from '@/util/travelTime';
+import { coordinatesToMapId } from '@/util/mapId';
 export default {
   name: 'CommandRow',
-  props: [
-    'command',
-    'isScout',
-    'isGhost'
-  ],
+  props: ['command', 'isScout', 'isGhost'],
   data: () => ({
     options: {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
-    }
+      second: '2-digit',
+    },
   }),
   computed: {
-    village () {
-      return this.isScout ? this.command.scout : this.command.ghost
+    village() {
+      return this.isScout ? this.command.scout : this.command.ghost;
     },
-    sendingTime () {
-      return getSendingTime(this.command.target, this.command.attacker)
-        .toLocaleTimeString('en-GB', this.options)
+    sendingTime() {
+      return getSendingTime(
+        this.command.target,
+        this.command.attacker
+      ).toLocaleTimeString('en-GB', this.options);
     },
-    ownSendingTime () {
-      return this.isScout ? this.scoutSendingTime : this.ghostSendingTime
+    ownSendingTime() {
+      return this.isScout ? this.scoutSendingTime : this.ghostSendingTime;
     },
-    scoutSendingTime () {
-      return getScoutSend(this.command.target, this.command.attacker, this.command.scout)
-        .toLocaleTimeString('en-GB', this.options)
+    scoutSendingTime() {
+      return getScoutSend(
+        this.command.target,
+        this.command.attacker,
+        this.command.scout
+      ).toLocaleTimeString('en-GB', this.options);
     },
-    returnTime () {
-      return getReturnTime(this.command.target, this.command.attacker)
-        .toLocaleTimeString('en-GB', this.options)
+    returnTime() {
+      return getReturnTime(
+        this.command.target,
+        this.command.attacker
+      ).toLocaleTimeString('en-GB', this.options);
     },
-    ghostSendingTime () {
-      return getGhostSend(this.command.target, this.command.attacker, this.command.ghost)
-        .toLocaleTimeString('en-GB', this.options)
-    }
+    ghostSendingTime() {
+      return getGhostSend(
+        this.command.target,
+        this.command.attacker,
+        this.command.ghost
+      ).toLocaleTimeString('en-GB', this.options);
+    },
   },
   methods: {
-    coordId (x, y) {
-      return coordinatesToMapId(x, y, this.$store.state.serverConfig.size * 2 + 1)
-    }
-  }
-}
+    coordId(x, y) {
+      return coordinatesToMapId(
+        x,
+        y,
+        this.$store.state.serverConfig.size * 2 + 1
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -139,7 +131,8 @@ export default {
   font-style: italic;
 }
 
-.player_name a, .send_link a {
+.player_name a,
+.send_link a {
   color: #2c3e50;
 }
 

@@ -1,21 +1,11 @@
 <template>
   <div class="attacker_row">
-    <div class="data_item explain_text">
-      Add new attacker:
-    </div>
+    <div class="data_item explain_text">Add new attacker:</div>
     <div class="data_item inputs">
       x
-      <input
-        v-model.number="xCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="xCoord" type="number" class="coord_box" />
       y
-      <input
-        v-model.number="yCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="yCoord" type="number" class="coord_box" />
     </div>
     <div class="data_item unit_speed">
       <DropDown
@@ -51,36 +41,21 @@
     </div>
     <div class="data_item map">
       map
-      <DropDown
-        v-model.number="map"
-        :options="maps"
-        :initial-value="map"
-      />
+      <DropDown v-model.number="map" :options="maps" :initial-value="map" />
     </div>
-    <div
-      class="data_item add_button"
-      @click="addAttacker"
-    >
-      Add
-    </div>
+    <div class="data_item add_button" @click="addAttacker">Add</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import AttackerService from '@/services/attacker'
+import DropDown from '@/components/common/DropDown';
+import AttackerService from '@/services/attacker';
 export default {
   name: 'InsertAttacker',
   components: {
-    DropDown
+    DropDown,
   },
-  props: [
-    'unitSpeeds',
-    'arteSpeeds',
-    'tsLevels',
-    'heroBoots',
-    'maps'
-  ],
+  props: ['unitSpeeds', 'arteSpeeds', 'tsLevels', 'heroBoots', 'maps'],
   data: () => ({
     xCoord: null,
     yCoord: null,
@@ -88,10 +63,10 @@ export default {
     arteSpeed: 1,
     tsLevel: 0,
     hero: 0,
-    map: 0
+    map: 0,
   }),
   methods: {
-    async addAttacker () {
+    async addAttacker() {
       await AttackerService.save({
         xCoord: this.xCoord,
         yCoord: this.yCoord,
@@ -99,12 +74,12 @@ export default {
         arteSpeed: this.arteSpeed,
         tournamentSquare: this.tsLevel,
         heroBoots: this.hero,
-        map: this.map
-      })
-      this.$store.dispatch('updateCycle')
-    }
-  }
-}
+        map: this.map,
+      });
+      this.$store.dispatch('updateCycle');
+    },
+  },
+};
 </script>
 
 <style scoped>

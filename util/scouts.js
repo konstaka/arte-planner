@@ -8,19 +8,23 @@ const saveScout = async (user, scout) => {
     xCoord: candidate.xCoord,
     yCoord: candidate.yCoord,
   });
-    // Check permissions
+  // Check permissions
   if (!matchingVillage && !user.roles.includes('admin')) {
     return 'Village not found';
   }
-  if (matchingVillage
-    && !user.accounts.includes(matchingVillage.playerName)
-    && !user.roles.includes('admin')
-    && !user.roles.includes('defcoord')) {
+  if (
+    matchingVillage &&
+    !user.accounts.includes(matchingVillage.playerName) &&
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord')
+  ) {
     return 'Not your village';
   }
-  if (!user.roles.includes('admin')
-    && !user.roles.includes('defcoord')
-    && !user.roles.includes('scout')) {
+  if (
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord') &&
+    !user.roles.includes('scout')
+  ) {
     return 'Not enough permissions';
   }
   // Attach info
@@ -33,10 +37,10 @@ const saveScout = async (user, scout) => {
         // Roman
         case 1:
           return 16;
-          // Teuton
+        // Teuton
         case 2:
           return 9;
-          // Gaul
+        // Gaul
         case 3:
           return 17;
         default:
@@ -58,21 +62,28 @@ const saveScout = async (user, scout) => {
 
 const getScouts = async (user) => {
   const scouts = await Scout.find();
-  return scouts.filter((scout) => user.roles.includes('admin')
-      || user.roles.includes('defcoord')
-      || user.accounts.includes(scout.player));
+  return scouts.filter(
+    (scout) =>
+      user.roles.includes('admin') ||
+      user.roles.includes('defcoord') ||
+      user.accounts.includes(scout.player)
+  );
 };
 
 const deleteScout = async (user, scoutId) => {
   const scout = await Scout.findById(scoutId);
-  if (!user.accounts.includes(scout.player)
-    && !user.roles.includes('admin')
-    && !user.roles.includes('defcoord')) {
+  if (
+    !user.accounts.includes(scout.player) &&
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord')
+  ) {
     return 'Not your village';
   }
-  if (!user.roles.includes('admin')
-    && !user.roles.includes('defcoord')
-    && !user.roles.includes('scout')) {
+  if (
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord') &&
+    !user.roles.includes('scout')
+  ) {
     return 'Not enough permissions';
   }
   const res = await Scout.findByIdAndDelete(scoutId);

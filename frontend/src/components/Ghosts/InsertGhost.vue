@@ -1,21 +1,11 @@
 <template>
   <div class="attacker_row">
-    <div class="data_item explain_text">
-      Add new ghost:
-    </div>
+    <div class="data_item explain_text">Add new ghost:</div>
     <div class="data_item inputs">
       x
-      <input
-        v-model.number="xCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="xCoord" type="number" class="coord_box" />
       y
-      <input
-        v-model.number="yCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="yCoord" type="number" class="coord_box" />
     </div>
     <div class="data_item unit_speed">
       <DropDown
@@ -50,36 +40,22 @@
       />
     </div>
     <div class="data_item ghost_amount">
-      <input
-        v-model.number="ghostAmount"
-        type="number"
-        class="amount_box"
-      >
+      <input v-model.number="ghostAmount" type="number" class="amount_box" />
       units
     </div>
-    <div
-      class="data_item add_button"
-      @click="addGhost"
-    >
-      Add
-    </div>
+    <div class="data_item add_button" @click="addGhost">Add</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import GhostService from '@/services/ghost'
+import DropDown from '@/components/common/DropDown';
+import GhostService from '@/services/ghost';
 export default {
   name: 'InsertGhost',
   components: {
-    DropDown
+    DropDown,
   },
-  props: [
-    'unitSpeeds',
-    'arteSpeeds',
-    'tsLevels',
-    'heroBoots'
-  ],
+  props: ['unitSpeeds', 'arteSpeeds', 'tsLevels', 'heroBoots'],
   data: () => ({
     xCoord: null,
     yCoord: null,
@@ -87,10 +63,10 @@ export default {
     arteSpeed: 1,
     tsLevel: 0,
     hero: 0,
-    ghostAmount: null
+    ghostAmount: null,
   }),
   methods: {
-    async addGhost () {
+    async addGhost() {
       await GhostService.save({
         xCoord: this.xCoord,
         yCoord: this.yCoord,
@@ -98,12 +74,12 @@ export default {
         arteSpeed: this.arteSpeed,
         tournamentSquare: this.tsLevel,
         heroBoots: this.hero,
-        ghostAmount: this.ghostAmount
-      })
-      this.$store.dispatch('updateCycle')
-    }
-  }
-}
+        ghostAmount: this.ghostAmount,
+      });
+      this.$store.dispatch('updateCycle');
+    },
+  },
+};
 </script>
 
 <style scoped>

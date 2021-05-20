@@ -9,19 +9,23 @@ const saveGhost = async (user, ghost) => {
     xCoord: candidate.xCoord,
     yCoord: candidate.yCoord,
   });
-    // Check permissions
+  // Check permissions
   if (!matchingVillage && !user.roles.includes('admin')) {
     return 'Village not found';
   }
-  if (matchingVillage
-    && !user.accounts.includes(matchingVillage.playerName)
-    && !user.roles.includes('admin')
-    && !user.roles.includes('defcoord')) {
+  if (
+    matchingVillage &&
+    !user.accounts.includes(matchingVillage.playerName) &&
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord')
+  ) {
     return 'Not your village';
   }
-  if (!user.roles.includes('admin')
-    && !user.roles.includes('defcoord')
-    && !user.roles.includes('ghost')) {
+  if (
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord') &&
+    !user.roles.includes('ghost')
+  ) {
     return 'Not enough permissions';
   }
   // Attach info
@@ -61,21 +65,28 @@ const saveGhost = async (user, ghost) => {
 
 const getGhosts = async (user) => {
   const ghosts = await Ghost.find();
-  return ghosts.filter((ghost) => user.roles.includes('admin')
-      || user.roles.includes('defcoord')
-      || user.accounts.includes(ghost.player));
+  return ghosts.filter(
+    (ghost) =>
+      user.roles.includes('admin') ||
+      user.roles.includes('defcoord') ||
+      user.accounts.includes(ghost.player)
+  );
 };
 
 const deleteGhost = async (user, ghostId) => {
   const ghost = await Ghost.findById(ghostId);
-  if (!user.accounts.includes(ghost.player)
-    && !user.roles.includes('admin')
-    && !user.roles.includes('defcoord')) {
+  if (
+    !user.accounts.includes(ghost.player) &&
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord')
+  ) {
     return 'Not your village';
   }
-  if (!user.roles.includes('admin')
-    && !user.roles.includes('defcoord')
-    && !user.roles.includes('ghost')) {
+  if (
+    !user.roles.includes('admin') &&
+    !user.roles.includes('defcoord') &&
+    !user.roles.includes('ghost')
+  ) {
     return 'Not enough permissions';
   }
   const res = await Ghost.findByIdAndDelete(ghostId);

@@ -9,29 +9,12 @@
           format="HH:mm:ss"
           class="timepicker"
         />
-        <Datepicker
-          v-model="opsHittingDay"
-          monday-first
-          class="datepicker"
-        />
-        <div
-          class="ui_button"
-          @click="fetchMapSql"
-        >
-          Fetch map.sql
-        </div>
-        <div
-          class="ui_button"
-          @click="clearSelections"
-        >
-          Clear selections
-        </div>
+        <Datepicker v-model="opsHittingDay" monday-first class="datepicker" />
+        <div class="ui_button" @click="fetchMapSql">Fetch map.sql</div>
+        <div class="ui_button" @click="clearSelections">Clear selections</div>
       </div>
       <!-- Attackers -->
-      <div
-        name="scrollingAttackers"
-        class="attacker_cols names syncscroll"
-      >
+      <div name="scrollingAttackers" class="attacker_cols names syncscroll">
         <div
           v-for="attacker of $store.state.attackers"
           :key="`attackerName${attacker.xCoord}${attacker.yCoord}`"
@@ -41,11 +24,11 @@
             {{ attacker.player }}
           </div>
           <div class="attacker">
-            {{ attacker.villageName }} ({{ attacker.xCoord }}|{{ attacker.yCoord }})
+            {{ attacker.villageName }} ({{ attacker.xCoord }}|{{
+              attacker.yCoord
+            }})
           </div>
-          <AttackerUpdates
-            :attacker="attacker"
-          />
+          <AttackerUpdates :attacker="attacker" />
         </div>
       </div>
     </div>
@@ -71,10 +54,7 @@
       </div>
     </div>
     <!-- Sending times -->
-    <div
-      name="scrollingAttackers"
-      class="attacker_cols syncscroll"
-    >
+    <div name="scrollingAttackers" class="attacker_cols syncscroll">
       <AttackerCol
         v-for="attacker of $store.state.attackers"
         :key="`attacker${attacker.xCoord}${attacker.yCoord}`"
@@ -86,17 +66,17 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
-import VueTimepicker from 'vue2-timepicker'
-import 'vue2-timepicker/dist/VueTimepicker.css'
-import { mapFields } from 'vuex-map-fields'
-import OperationMetaService from '@/services/operationMeta'
-import SelectionsService from '@/services/selections'
-import MapSqlService from '@/services/mapSql'
-import TargetVillage from '@/components/common/TargetVillage'
-import AttackerCol from '@/components/Home/AttackerCol'
-import AttackerUpdates from '@/components/Home/AttackerUpdates'
-import syncscroll from '@/util/syncscroll-0.0.3/syncscroll'
+import Datepicker from 'vuejs-datepicker';
+import VueTimepicker from 'vue2-timepicker';
+import 'vue2-timepicker/dist/VueTimepicker.css';
+import { mapFields } from 'vuex-map-fields';
+import OperationMetaService from '@/services/operationMeta';
+import SelectionsService from '@/services/selections';
+import MapSqlService from '@/services/mapSql';
+import TargetVillage from '@/components/common/TargetVillage';
+import AttackerCol from '@/components/Home/AttackerCol';
+import AttackerUpdates from '@/components/Home/AttackerUpdates';
+import syncscroll from '@/util/syncscroll-0.0.3/syncscroll';
 export default {
   name: 'Home',
   components: {
@@ -104,56 +84,53 @@ export default {
     VueTimepicker,
     TargetVillage,
     AttackerCol,
-    AttackerUpdates
+    AttackerUpdates,
   },
   computed: {
-    ...mapFields([
-      'opsHittingDay',
-      'opsHittingTime'
-    ]),
-    hittingTime () {
-      return (new Date(this.opsHittingDay)).setHours(
+    ...mapFields(['opsHittingDay', 'opsHittingTime']),
+    hittingTime() {
+      return new Date(this.opsHittingDay).setHours(
         this.opsHittingTime.HH,
         this.opsHittingTime.mm,
         this.opsHittingTime.ss
-      )
-    }
+      );
+    },
   },
   watch: {
-    async hittingTime (newV, oldV) {
+    async hittingTime(newV, oldV) {
       if (oldV) {
-        await OperationMetaService.save(newV)
-        this.$store.dispatch('getOperationMeta')
+        await OperationMetaService.save(newV);
+        this.$store.dispatch('getOperationMeta');
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (syncscroll) {
-      syncscroll.reset()
+      syncscroll.reset();
     }
   },
   methods: {
-    async fetchMapSql () {
+    async fetchMapSql() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: 'Fetch a new map.sql?',
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Fetch',
             handler: async () => {
-              const res = await MapSqlService.fetch()
+              const res = await MapSqlService.fetch();
               if (res) {
-                this.mapSqlFetched()
+                this.mapSqlFetched();
               }
-            }
-          }
-        ]
-      })
+            },
+          },
+        ],
+      });
     },
-    mapSqlFetched () {
+    mapSqlFetched() {
       window.VoerroModal.show({
         title: 'Success',
         body: 'Map.sql fetched successfully.',
@@ -161,32 +138,32 @@ export default {
           {
             text: 'OK',
             handler: () => {
-              window.location.href = '/'
-            }
-          }
-        ]
-      })
+              window.location.href = '/';
+            },
+          },
+        ],
+      });
     },
-    async clearSelections () {
+    async clearSelections() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: 'Remove all selections?',
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Remove',
             handler: async () => {
-              await SelectionsService.put([])
-              this.$store.dispatch('getSelections')
-            }
-          }
-        ]
-      })
-    }
-  }
-}
+              await SelectionsService.put([]);
+              this.$store.dispatch('getSelections');
+            },
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 
 <style>
@@ -198,7 +175,8 @@ export default {
   margin-top: 6px;
 }
 
-.timepicker input, .datepicker input {
+.timepicker input,
+.datepicker input {
   background: #ebf0f4;
   border: 1px solid #666 !important;
   width: 160px;
@@ -209,9 +187,9 @@ export default {
   position: sticky;
   top: 0;
   background: #dbe3eb;
-  -webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2);
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
 .targets_wrapper {

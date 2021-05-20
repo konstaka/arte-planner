@@ -9,19 +9,25 @@ const updatedAt = async () => {
   return randomVillage[0].updatedAt;
 };
 
-const restoreStr = (str) => str
-  .replace('&amp;', '&')
-  .replace('&lt;', '<')
-  .replace('&gt', '>')
-  .replace('&quot;', '"')
-  .replace('&#39;', "'");
+const restoreStr = (str) =>
+  str
+    .replace('&amp;', '&')
+    .replace('&lt;', '<')
+    .replace('&gt', '>')
+    .replace('&quot;', '"')
+    .replace('&#39;', "'");
 
 const update = async () => {
   try {
-    if (!process.env.TRAVIAN_URL || !process.env.TRAVIAN_URL.includes('travian')) {
+    if (
+      !process.env.TRAVIAN_URL ||
+      !process.env.TRAVIAN_URL.includes('travian')
+    ) {
       return null;
     }
-    const mapRes = await axios.get(`https://${process.env.TRAVIAN_URL}/map.sql`);
+    const mapRes = await axios.get(
+      `https://${process.env.TRAVIAN_URL}/map.sql`
+    );
     const mapData = mapRes.data.split('\n');
     console.log(`map.sql fetched, length ${mapData.length}`);
 
@@ -34,28 +40,28 @@ const update = async () => {
        * Strings may contain commas!
        */
       const firstNumbers = mapData[i]
-        .substr(0, mapData[i].indexOf('\'') - 1)
+        .substr(0, mapData[i].indexOf("'") - 1)
         .substr(30)
         .split(',');
-      const rest = mapData[i]
-        .substr(mapData[i].indexOf('\''))
-        .split('\'');
+      const rest = mapData[i].substr(mapData[i].indexOf("'")).split("'");
 
       if (firstNumbers.length === 5 && rest.length === 7) {
-        villages.push(new Village({
-          coordId: parseInt(firstNumbers[0], 10),
-          xCoord: parseInt(firstNumbers[1], 10),
-          yCoord: parseInt(firstNumbers[2], 10),
-          tribe: parseInt(firstNumbers[3], 10),
-          villageId: parseInt(firstNumbers[4], 10),
-          villageName: restoreStr(rest[1]),
-          playerId: parseInt(rest[2].substr(1, rest[1].length - 1), 10),
-          playerName: restoreStr(rest[3]),
-          allyId: parseInt(rest[4].substr(1, rest[3].length - 1), 10),
-          allyName: restoreStr(rest[5]),
-          population: parseInt(rest[6].split(',')[0], 10),
-          updatedAt: now,
-        }));
+        villages.push(
+          new Village({
+            coordId: parseInt(firstNumbers[0], 10),
+            xCoord: parseInt(firstNumbers[1], 10),
+            yCoord: parseInt(firstNumbers[2], 10),
+            tribe: parseInt(firstNumbers[3], 10),
+            villageId: parseInt(firstNumbers[4], 10),
+            villageName: restoreStr(rest[1]),
+            playerId: parseInt(rest[2].substr(1, rest[1].length - 1), 10),
+            playerName: restoreStr(rest[3]),
+            allyId: parseInt(rest[4].substr(1, rest[3].length - 1), 10),
+            allyName: restoreStr(rest[5]),
+            population: parseInt(rest[6].split(',')[0], 10),
+            updatedAt: now,
+          })
+        );
       } else {
         console.log(mapData[i]);
       }
@@ -71,8 +77,9 @@ const update = async () => {
       } catch (err) {
         console.log(err);
       }
-      const insertRes = await Village.collection
-        .insertMany(villages, { ordered: false });
+      const insertRes = await Village.collection.insertMany(villages, {
+        ordered: false,
+      });
       console.log(`Saved ${insertRes.insertedCount} villages`);
       return insertRes.insertedCount;
     }

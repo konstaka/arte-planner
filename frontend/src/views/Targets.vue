@@ -13,25 +13,22 @@
         :key="`target${village.xCoord}${village.yCoord}`"
       >
         <FilterCheckbox :coord-id="village.coordId" />
-        <TargetVillage
-          :target="village"
-          :filtered="false"
-        />
+        <TargetVillage :target="village" :filtered="false" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TargetVillage from '@/components/common/TargetVillage'
-import FilterCheckbox from '@/components/Targets/FilterCheckbox'
+import TargetVillage from '@/components/common/TargetVillage';
+import FilterCheckbox from '@/components/Targets/FilterCheckbox';
 export default {
   name: 'Targets',
   components: {
     TargetVillage,
-    FilterCheckbox
-  }
-}
+    FilterCheckbox,
+  },
+};
 </script>
 
 <style scoped>

@@ -17,15 +17,15 @@
 </template>
 
 <script>
-import ScoutRow from '@/components/Scouts/ScoutRow'
-import InsertScout from '@/components/Scouts/InsertScout'
+import ScoutRow from '@/components/Scouts/ScoutRow';
+import InsertScout from '@/components/Scouts/InsertScout';
 export default {
   name: 'Scouts',
   components: {
     ScoutRow,
-    InsertScout
-  }
-}
+    InsertScout,
+  },
+};
 </script>
 
 <style scoped>

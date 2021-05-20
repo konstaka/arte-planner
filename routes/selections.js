@@ -48,10 +48,9 @@ router.put('/', async (req, res) => {
       console.log(err);
     }
     if (req.body.selections.length > 0) {
-      await Selection.collection.insertMany(
-        req.body.selections,
-        { ordered: false },
-      );
+      await Selection.collection.insertMany(req.body.selections, {
+        ordered: false,
+      });
     }
     res.status(HttpStatus.NO_CONTENT).end();
   } catch (e) {

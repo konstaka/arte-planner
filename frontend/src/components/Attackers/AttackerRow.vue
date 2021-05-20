@@ -49,22 +49,17 @@
         :initial-value="attacker.map"
       />
     </div>
-    <div
-      class="data_item delete_button"
-      @click="deleteAttacker"
-    >
-      Delete
-    </div>
+    <div class="data_item delete_button" @click="deleteAttacker">Delete</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import AttackerService from '@/services/attacker'
+import DropDown from '@/components/common/DropDown';
+import AttackerService from '@/services/attacker';
 export default {
   name: 'AttackerRow',
   components: {
-    DropDown
+    DropDown,
   },
   props: [
     'attacker',
@@ -72,56 +67,56 @@ export default {
     'arteSpeeds',
     'tsLevels',
     'heroBoots',
-    'maps'
+    'maps',
   ],
   data: () => ({
     mutableAttacker: {},
-    loaded: false
+    loaded: false,
   }),
   watch: {
     mutableAttacker: {
       deep: true,
-      handler () {
+      handler() {
         if (this.loaded) {
-          this.updateAttacker()
+          this.updateAttacker();
         }
-      }
-    }
+      },
+    },
   },
-  mounted () {
+  mounted() {
     this.mutableAttacker = {
-      ...this.attacker
-    }
+      ...this.attacker,
+    };
     this.$nextTick(() => {
-      this.loaded = true
-    })
+      this.loaded = true;
+    });
   },
   methods: {
-    async updateAttacker () {
-      await AttackerService.update(this.attacker._id, this.mutableAttacker)
-      this.$store.dispatch('updateCycle')
+    async updateAttacker() {
+      await AttackerService.update(this.attacker._id, this.mutableAttacker);
+      this.$store.dispatch('updateCycle');
     },
-    async deleteAttacker () {
+    async deleteAttacker() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: `Delete (${this.attacker.xCoord}|${this.attacker.yCoord})?`,
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Delete',
             handler: async () => {
-              await AttackerService.delete(this.attacker)
-              await this.$store.dispatch('forgetAttacker', this.attacker)
-              this.$store.dispatch('updateCycle')
-            }
-          }
-        ]
-      })
-    }
-  }
-}
+              await AttackerService.delete(this.attacker);
+              await this.$store.dispatch('forgetAttacker', this.attacker);
+              this.$store.dispatch('updateCycle');
+            },
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

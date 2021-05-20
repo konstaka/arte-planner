@@ -20,46 +20,43 @@
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import AttackerService from '@/services/attacker'
+import DropDown from '@/components/common/DropDown';
+import AttackerService from '@/services/attacker';
 export default {
   name: 'AttackerUpdates',
   components: {
-    DropDown
+    DropDown,
   },
-  props: [
-    'attacker'
-  ],
+  props: ['attacker'],
   data: () => ({
     mutableAttacker: {},
-    loaded: false
+    loaded: false,
   }),
   watch: {
     mutableAttacker: {
       deep: true,
-      handler () {
+      handler() {
         if (this.loaded) {
-          this.updateAttacker()
+          this.updateAttacker();
         }
-      }
-    }
+      },
+    },
   },
-  mounted () {
+  mounted() {
     this.mutableAttacker = {
-      ...this.attacker
-    }
+      ...this.attacker,
+    };
     this.$nextTick(() => {
-      this.loaded = true
-    })
+      this.loaded = true;
+    });
   },
   methods: {
-    async updateAttacker () {
-      await AttackerService.update(this.attacker._id, this.mutableAttacker)
-      this.$store.dispatch('updateCycle')
-    }
-  }
-}
+    async updateAttacker() {
+      await AttackerService.update(this.attacker._id, this.mutableAttacker);
+      this.$store.dispatch('updateCycle');
+    },
+  },
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

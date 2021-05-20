@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import SelectionRow from '@/components/Selections/SelectionRow'
+import SelectionRow from '@/components/Selections/SelectionRow';
 export default {
   name: 'Selections',
   components: {
-    SelectionRow
-  }
-}
+    SelectionRow,
+  },
+};
 </script>
 
 <style scoped>

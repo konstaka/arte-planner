@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import CommandRow from '@/components/common/CommandRow'
+import CommandRow from '@/components/common/CommandRow';
 export default {
   name: 'ScoutCommands',
   components: {
-    CommandRow
-  }
-}
+    CommandRow,
+  },
+};
 </script>
 
 <style scoped>

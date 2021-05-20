@@ -57,7 +57,7 @@ router.delete('/:ghostId', async (req, res) => {
   try {
     const deleted = await ghosts.deleteGhost(
       req.authorizedUser,
-      req.params.ghostId,
+      req.params.ghostId
     );
     if (!deleted) {
       res.status(HttpStatus.NOT_FOUND).end();

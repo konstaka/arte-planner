@@ -57,7 +57,7 @@ router.delete('/:scoutId', async (req, res) => {
   try {
     const deleted = await scouts.deleteScout(
       req.authorizedUser,
-      req.params.scoutId,
+      req.params.scoutId
     );
     if (!deleted) {
       res.status(HttpStatus.NOT_FOUND).end();

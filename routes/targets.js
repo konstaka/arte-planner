@@ -46,7 +46,7 @@ router.put('/filter/:coordId', async (req, res) => {
       {
         new: true,
         upsert: true,
-      },
+      }
     );
     if (changed) {
       res.status(HttpStatus.NO_CONTENT).end();

@@ -21,15 +21,15 @@
 </template>
 
 <script>
-import AttackerRow from '@/components/Attackers/AttackerRow'
-import InsertAttacker from '@/components/Attackers/InsertAttacker'
+import AttackerRow from '@/components/Attackers/AttackerRow';
+import InsertAttacker from '@/components/Attackers/InsertAttacker';
 export default {
   name: 'Attackers',
   components: {
     AttackerRow,
-    InsertAttacker
-  }
-}
+    InsertAttacker,
+  },
+};
 </script>
 
 <style scoped>

@@ -1,20 +1,19 @@
 <template>
   <div class="selection_row">
     <div class="data_item player_name">
-      {{ selection.attacker.villageName }} ({{ selection.attacker.xCoord }}|{{ selection.attacker.yCoord }})
+      {{ selection.attacker.villageName }} ({{ selection.attacker.xCoord }}|{{
+        selection.attacker.yCoord
+      }})
     </div>
-    <div class="data_item sending_time">
-      sends at {{ sendingTime }} to
-    </div>
+    <div class="data_item sending_time">sends at {{ sendingTime }} to</div>
     <div class="data_item player_name">
-      {{ selection.target.villageName }} ({{ selection.target.xCoord }}|{{ selection.target.yCoord }})
+      {{ selection.target.villageName }} ({{ selection.target.xCoord }}|{{
+        selection.target.yCoord
+      }})
     </div>
     <div class="data_item scout">
       scout:
-      <select
-        v-model="mutableSelection.scout"
-        class="scout_dropdown"
-      >
+      <select v-model="mutableSelection.scout" class="scout_dropdown">
         <option :value="null" />
         <option
           v-for="scout of $store.state.scouts"
@@ -31,19 +30,19 @@
             tournamentSquare: scout.tournamentSquare,
             unitSpeed: scout.unitSpeed,
             villageName: scout.villageName,
-            villageId: scout.villageId
+            villageId: scout.villageId,
           }"
         >
-          {{ scout.player }} ({{ scout.xCoord }}|{{ scout.yCoord }}) {{ scout.scoutArte }}x {{ scout.scoutAmount }} [{{ scoutSendingTime(scout) }}]
+          {{ scout.player }} ({{ scout.xCoord }}|{{ scout.yCoord }})
+          {{ scout.scoutArte }}x {{ scout.scoutAmount }} [{{
+            scoutSendingTime(scout)
+          }}]
         </option>
       </select>
     </div>
     <div class="data_item ghost">
       ghost:
-      <select
-        v-model="mutableSelection.ghost"
-        class="ghost_dropdown"
-      >
+      <select v-model="mutableSelection.ghost" class="ghost_dropdown">
         <option :value="null" />
         <option
           v-for="ghost of $store.state.ghosts"
@@ -61,19 +60,18 @@
             unitSpeed: ghost.unitSpeed,
             villageName: ghost.villageName,
             villageId: ghost.villageId,
-            heroBoots: ghost.heroBoots
+            heroBoots: ghost.heroBoots,
           }"
         >
-          {{ ghost.player }} ({{ ghost.xCoord }}|{{ ghost.yCoord }}) {{ ghost.ghostAmount }}{{ ghost.unitName }}@{{ ghostTravelString(ghost) }} [{{ ghostSendingTime(ghost) }}]
+          {{ ghost.player }} ({{ ghost.xCoord }}|{{ ghost.yCoord }})
+          {{ ghost.ghostAmount }}{{ ghost.unitName }}@{{
+            ghostTravelString(ghost)
+          }}
+          [{{ ghostSendingTime(ghost) }}]
         </option>
       </select>
     </div>
-    <div
-      class="data_item delete_button"
-      @click="deleteSelection"
-    >
-      Delete
-    </div>
+    <div class="data_item delete_button" @click="deleteSelection">Delete</div>
   </div>
 </template>
 
@@ -82,102 +80,112 @@ import {
   getSendingTime,
   getScoutSend,
   getGhostTravelString,
-  getGhostSend
-} from '@/util/travelTime'
-import SelectionsService from '@/services/selections'
+  getGhostSend,
+} from '@/util/travelTime';
+import SelectionsService from '@/services/selections';
 export default {
   name: 'SelectionRow',
-  props: [
-    'selection'
-  ],
+  props: ['selection'],
   data: () => ({
     mutableSelection: {},
     loaded: false,
     options: {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
-    }
+      second: '2-digit',
+    },
   }),
   computed: {
-    sendingTime () {
-      return getSendingTime(this.selection.target, this.selection.attacker)
-        .toLocaleTimeString('en-GB', this.options)
-    }
+    sendingTime() {
+      return getSendingTime(
+        this.selection.target,
+        this.selection.attacker
+      ).toLocaleTimeString('en-GB', this.options);
+    },
   },
   watch: {
     mutableSelection: {
       deep: true,
-      handler () {
+      handler() {
         if (this.loaded) {
-          this.updateSelection()
+          this.updateSelection();
         }
-      }
-    }
+      },
+    },
   },
-  mounted () {
+  mounted() {
     this.mutableSelection = {
-      ...this.selection
-    }
+      ...this.selection,
+    };
     for (const storedScout of this.$store.state.scouts) {
-      if (this.mutableSelection.scout
-        && storedScout._id === this.mutableSelection.scout._id) {
-        this.mutableSelection.scout = storedScout
+      if (
+        this.mutableSelection.scout &&
+        storedScout._id === this.mutableSelection.scout._id
+      ) {
+        this.mutableSelection.scout = storedScout;
       }
     }
     for (const storedGhost of this.$store.state.ghosts) {
-      if (this.mutableSelection.ghost
-        && storedGhost._id === this.mutableSelection.ghost._id) {
-        this.mutableSelection.ghost = storedGhost
+      if (
+        this.mutableSelection.ghost &&
+        storedGhost._id === this.mutableSelection.ghost._id
+      ) {
+        this.mutableSelection.ghost = storedGhost;
       }
     }
     this.$nextTick(() => {
-      this.loaded = true
-    })
+      this.loaded = true;
+    });
   },
   methods: {
-    scoutSendingTime (scout) {
-      return getScoutSend(this.selection.target, this.selection.attacker, scout)
-        .toLocaleTimeString('en-GB', this.options)
+    scoutSendingTime(scout) {
+      return getScoutSend(
+        this.selection.target,
+        this.selection.attacker,
+        scout
+      ).toLocaleTimeString('en-GB', this.options);
     },
-    ghostSendingTime (ghost) {
-      return getGhostSend(this.selection.target, this.selection.attacker, ghost)
-        .toLocaleTimeString('en-GB', this.options)
+    ghostSendingTime(ghost) {
+      return getGhostSend(
+        this.selection.target,
+        this.selection.attacker,
+        ghost
+      ).toLocaleTimeString('en-GB', this.options);
     },
-    ghostTravelString (ghost) {
-      return getGhostTravelString(this.selection.attacker, ghost)
+    ghostTravelString(ghost) {
+      return getGhostTravelString(this.selection.attacker, ghost);
     },
-    async updateSelection () {
-      await SelectionsService.updateSelection(this.mutableSelection)
-      this.$store.dispatch('updateCycle')
+    async updateSelection() {
+      await SelectionsService.updateSelection(this.mutableSelection);
+      this.$store.dispatch('updateCycle');
     },
-    async deleteSelection () {
+    async deleteSelection() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: `Delete (${this.selection.attacker.xCoord}|${this.selection.attacker.yCoord})
           to (${this.selection.target.xCoord}|${this.selection.target.yCoord})?`,
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Delete',
             handler: async () => {
-              const selectionId = this.selection._id
+              const selectionId = this.selection._id;
               this.$store.commit('UPDATE_SELECTION', {
                 target: this.selection.target,
                 attacker: this.selection.attacker,
-                selected: false
-              })
-              await SelectionsService.delete(selectionId)
-              this.$store.dispatch('updateCycle')
-            }
-          }
-        ]
-      })
-    }
-  }
-}
+                selected: false,
+              });
+              await SelectionsService.delete(selectionId);
+              this.$store.dispatch('updateCycle');
+            },
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

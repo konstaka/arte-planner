@@ -1,12 +1,6 @@
 <template>
-  <select
-    v-model.number="value"
-    class="dropdown"
-  >
-    <option
-      v-for="opt of options"
-      :key="opt"
-    >
+  <select v-model.number="value" class="dropdown">
+    <option v-for="opt of options" :key="opt">
       {{ opt }}
     </option>
   </select>
@@ -15,22 +9,19 @@
 <script>
 export default {
   name: 'DropDown',
-  props: [
-    'initialValue',
-    'options'
-  ],
+  props: ['initialValue', 'options'],
   data: () => ({
-    value: 0
+    value: 0,
   }),
   watch: {
-    value (newV) {
-      this.$emit('input', newV)
-    }
+    value(newV) {
+      this.$emit('input', newV);
+    },
   },
-  mounted () {
-    this.value = this.initialValue
-  }
-}
+  mounted() {
+    this.value = this.initialValue;
+  },
+};
 </script>
 
 <style scoped>

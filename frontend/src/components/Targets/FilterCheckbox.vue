@@ -1,37 +1,31 @@
 <template>
-  <input
-    v-model="isVisible"
-    type="checkbox"
-  >
+  <input v-model="isVisible" type="checkbox" />
 </template>
 
 <script>
-import TargetService from '@/services/target'
+import TargetService from '@/services/target';
 export default {
   name: 'FilterCheckbox',
-  props: [
-    'coordId'
-  ],
+  props: ['coordId'],
   data: () => ({
     isVisible: false,
-    loaded: false
+    loaded: false,
   }),
   watch: {
-    async isVisible (newV, oldV) {
+    async isVisible(newV, oldV) {
       if (this.loaded) {
-        await TargetService.updateFilter(this.coordId, newV)
-        this.$store.dispatch('getFilter')
+        await TargetService.updateFilter(this.coordId, newV);
+        this.$store.dispatch('getFilter');
       }
-    }
+    },
   },
-  mounted () {
-    this.isVisible = this.$store.state.filter[this.coordId]
+  mounted() {
+    this.isVisible = this.$store.state.filter[this.coordId];
     this.$nextTick(() => {
-      this.loaded = true
-    })
-  }
-}
+      this.loaded = true;
+    });
+  },
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

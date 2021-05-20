@@ -1,21 +1,11 @@
 <template>
   <div class="attacker_row">
-    <div class="data_item explain_text">
-      Add new scout:
-    </div>
+    <div class="data_item explain_text">Add new scout:</div>
     <div class="data_item inputs">
       x
-      <input
-        v-model.number="xCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="xCoord" type="number" class="coord_box" />
       y
-      <input
-        v-model.number="yCoord"
-        type="number"
-        class="coord_box"
-      >
+      <input v-model.number="yCoord" type="number" class="coord_box" />
     </div>
     <div class="data_item arte_speed">
       artefact
@@ -40,57 +30,44 @@
         :initial-value="scoutArte"
       />
       x
-      <input
-        v-model.number="scoutAmount"
-        type="number"
-        class="amount_box"
-      >
+      <input v-model.number="scoutAmount" type="number" class="amount_box" />
       scouts
     </div>
-    <div
-      class="data_item add_button"
-      @click="addScout"
-    >
-      Add
-    </div>
+    <div class="data_item add_button" @click="addScout">Add</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import ScoutService from '@/services/scout'
+import DropDown from '@/components/common/DropDown';
+import ScoutService from '@/services/scout';
 export default {
   name: 'InsertScout',
   components: {
-    DropDown
+    DropDown,
   },
-  props: [
-    'arteSpeeds',
-    'tsLevels',
-    'scoutArtes'
-  ],
+  props: ['arteSpeeds', 'tsLevels', 'scoutArtes'],
   data: () => ({
     xCoord: null,
     yCoord: null,
     arteSpeed: 1,
     tsLevel: 0,
     scoutAmount: null,
-    scoutArte: 1
+    scoutArte: 1,
   }),
   methods: {
-    async addScout () {
+    async addScout() {
       await ScoutService.save({
         xCoord: this.xCoord,
         yCoord: this.yCoord,
         arteSpeed: this.arteSpeed,
         tournamentSquare: this.tsLevel,
         scoutAmount: this.scoutAmount,
-        scoutArte: this.scoutArte
-      })
-      this.$store.dispatch('updateCycle')
-    }
-  }
-}
+        scoutArte: this.scoutArte,
+      });
+      this.$store.dispatch('updateCycle');
+    },
+  },
+};
 </script>
 
 <style scoped>

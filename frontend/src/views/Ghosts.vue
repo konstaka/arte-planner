@@ -19,15 +19,15 @@
 </template>
 
 <script>
-import GhostRow from '@/components/Ghosts/GhostRow'
-import InsertGhost from '@/components/Ghosts/InsertGhost'
+import GhostRow from '@/components/Ghosts/GhostRow';
+import InsertGhost from '@/components/Ghosts/InsertGhost';
 export default {
   name: 'Ghosts',
   components: {
     GhostRow,
-    InsertGhost
-  }
-}
+    InsertGhost,
+  },
+};
 </script>
 
 <style scoped>

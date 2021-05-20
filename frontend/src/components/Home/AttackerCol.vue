@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-for="target of $store.state.targets"
-      :key="target[0].playerName"
-    >
+    <div v-for="target of $store.state.targets" :key="target[0].playerName">
       <div
         v-if="target.some((village) => $store.state.filter[village.coordId])"
         class="player_padding"
@@ -20,16 +17,14 @@
 </template>
 
 <script>
-import TimeBox from '@/components/Home/AttackerCol/TimeBox'
+import TimeBox from '@/components/Home/AttackerCol/TimeBox';
 export default {
   name: 'AttackerCol',
   components: {
-    TimeBox
+    TimeBox,
   },
-  props: [
-    'attacker'
-  ]
-}
+  props: ['attacker'],
+};
 </script>
 
 <style scoped>

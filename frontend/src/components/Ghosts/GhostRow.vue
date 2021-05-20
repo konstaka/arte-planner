@@ -6,9 +6,7 @@
     <div class="data_item village_name">
       {{ ghost.villageName }}
     </div>
-    <div class="data_item coords">
-      ({{ ghost.xCoord }}|{{ ghost.yCoord }})
-    </div>
+    <div class="data_item coords">({{ ghost.xCoord }}|{{ ghost.yCoord }})</div>
     <div class="data_item unit_speed">
       <DropDown
         v-model.number="mutableGhost.unitSpeed"
@@ -46,81 +44,70 @@
         v-model.number="mutableGhost.ghostAmount"
         type="number"
         class="amount_box"
-      >
+      />
       units ({{ ghost.unitName }})
     </div>
-    <div
-      class="data_item delete_button"
-      @click="deleteGhost"
-    >
-      Delete
-    </div>
+    <div class="data_item delete_button" @click="deleteGhost">Delete</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import GhostService from '@/services/ghost'
+import DropDown from '@/components/common/DropDown';
+import GhostService from '@/services/ghost';
 export default {
   name: 'AttackerRow',
   components: {
-    DropDown
+    DropDown,
   },
-  props: [
-    'ghost',
-    'unitSpeeds',
-    'arteSpeeds',
-    'tsLevels',
-    'heroBoots'
-  ],
+  props: ['ghost', 'unitSpeeds', 'arteSpeeds', 'tsLevels', 'heroBoots'],
   data: () => ({
     mutableGhost: {},
-    loaded: false
+    loaded: false,
   }),
   watch: {
     mutableGhost: {
       deep: true,
-      handler () {
+      handler() {
         if (this.loaded) {
-          this.updateGhost()
+          this.updateGhost();
         }
-      }
-    }
+      },
+    },
   },
-  mounted () {
+  mounted() {
     this.mutableGhost = {
-      ...this.ghost
-    }
+      ...this.ghost,
+    };
     this.$nextTick(() => {
-      this.loaded = true
-    })
+      this.loaded = true;
+    });
   },
   methods: {
-    async updateGhost () {
-      await GhostService.update(this.ghost._id, this.mutableGhost)
-      this.$store.dispatch('updateCycle')
+    async updateGhost() {
+      await GhostService.update(this.ghost._id, this.mutableGhost);
+      this.$store.dispatch('updateCycle');
     },
-    async deleteGhost () {
+    async deleteGhost() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: `Delete (${this.ghost.xCoord}|${this.ghost.yCoord})?`,
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Delete',
             handler: async () => {
-              await GhostService.delete(this.ghost)
-              await this.$store.dispatch('forgetGhost', this.ghost)
-              this.$store.dispatch('updateCycle')
-            }
-          }
-        ]
-      })
-    }
-  }
-}
+              await GhostService.delete(this.ghost);
+              await this.$store.dispatch('forgetGhost', this.ghost);
+              this.$store.dispatch('updateCycle');
+            },
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

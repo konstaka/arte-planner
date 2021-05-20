@@ -6,12 +6,8 @@
     <div class="data_item village_name">
       {{ scout.villageName }}
     </div>
-    <div class="data_item coords">
-      ({{ scout.xCoord }}|{{ scout.yCoord }})
-    </div>
-    <div class="data_item unit_speed">
-      {{ scout.unitSpeed }} sq/h
-    </div>
+    <div class="data_item coords">({{ scout.xCoord }}|{{ scout.yCoord }})</div>
+    <div class="data_item unit_speed">{{ scout.unitSpeed }} sq/h</div>
     <div class="data_item arte_speed">
       artefact
       <DropDown
@@ -39,25 +35,20 @@
         v-model.number="mutableScout.scoutAmount"
         type="number"
         class="amount_box"
-      >
+      />
       scouts
     </div>
-    <div
-      class="data_item delete_button"
-      @click="deleteScout"
-    >
-      Delete
-    </div>
+    <div class="data_item delete_button" @click="deleteScout">Delete</div>
   </div>
 </template>
 
 <script>
-import DropDown from '@/components/common/DropDown'
-import ScoutService from '@/services/scout'
+import DropDown from '@/components/common/DropDown';
+import ScoutService from '@/services/scout';
 export default {
   name: 'ScoutRow',
   components: {
-    DropDown
+    DropDown,
   },
   props: [
     'scout',
@@ -65,56 +56,56 @@ export default {
     'arteSpeeds',
     'tsLevels',
     'heroBoots',
-    'scoutArtes'
+    'scoutArtes',
   ],
   data: () => ({
     mutableScout: {},
-    loaded: false
+    loaded: false,
   }),
   watch: {
     mutableScout: {
       deep: true,
-      handler () {
+      handler() {
         if (this.loaded) {
-          this.updateScout()
+          this.updateScout();
         }
-      }
-    }
+      },
+    },
   },
-  mounted () {
+  mounted() {
     this.mutableScout = {
-      ...this.scout
-    }
+      ...this.scout,
+    };
     this.$nextTick(() => {
-      this.loaded = true
-    })
+      this.loaded = true;
+    });
   },
   methods: {
-    async updateScout () {
-      await ScoutService.update(this.scout._id, this.mutableScout)
-      this.$store.dispatch('updateCycle')
+    async updateScout() {
+      await ScoutService.update(this.scout._id, this.mutableScout);
+      this.$store.dispatch('updateCycle');
     },
-    async deleteScout () {
+    async deleteScout() {
       window.VoerroModal.show({
         title: 'Confirm:',
         body: `Delete (${this.scout.xCoord}|${this.scout.yCoord})?`,
         buttons: [
           {
-            text: 'Cancel'
+            text: 'Cancel',
           },
           {
             text: 'Delete',
             handler: async () => {
-              await ScoutService.delete(this.scout)
-              await this.$store.dispatch('forgetScout', this.scout)
-              this.$store.dispatch('updateCycle')
-            }
-          }
-        ]
-      })
-    }
-  }
-}
+              await ScoutService.delete(this.scout);
+              await this.$store.dispatch('forgetScout', this.scout);
+              this.$store.dispatch('updateCycle');
+            },
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

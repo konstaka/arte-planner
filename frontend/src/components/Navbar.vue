@@ -8,39 +8,35 @@
     >
       {{ route.name }}
     </router-link>
-    <div
-      v-if="$store.state.isSignIn"
-      class="sign_in"
-      @click="signOut"
-    >
+    <div v-if="$store.state.isSignIn" class="sign_in" @click="signOut">
       Sign out
     </div>
   </div>
 </template>
 
 <script>
-import router from '@/router/index'
+import router from '@/router/index';
 export default {
   name: 'Navbar',
   data: () => ({
-    routes: router.options.routes
+    routes: router.options.routes,
   }),
   methods: {
-    showLink (roles) {
+    showLink(roles) {
       return roles.some((r) => {
-        return this.$store.state.roles.includes(r)
-      })
+        return this.$store.state.roles.includes(r);
+      });
     },
-    async signOut () {
-      this.$cookies.remove('id_token')
-      this.$cookies.remove('roles')
-      this.$store.commit('SIGN_OUT')
+    async signOut() {
+      this.$cookies.remove('id_token');
+      this.$cookies.remove('roles');
+      this.$store.commit('SIGN_OUT');
       if (router.history.current.path !== '/login') {
-        router.push('/login')
+        router.push('/login');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

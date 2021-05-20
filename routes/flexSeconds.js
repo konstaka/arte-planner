@@ -35,11 +35,13 @@ router.put('/', async (req, res) => {
       const attackerIds = Object.keys(req.body[targetId]);
       for (let j = 0; j < attackerIds.length; j++) {
         const attackerId = attackerIds[j];
-        items.push(new FlexSecond({
-          targetId,
-          attackerId,
-          seconds: req.body[targetId][attackerId],
-        }));
+        items.push(
+          new FlexSecond({
+            targetId,
+            attackerId,
+            seconds: req.body[targetId][attackerId],
+          })
+        );
       }
     }
     try {
