@@ -17,6 +17,7 @@ module.exports = {
     'comma-dangle': 'off',
     'space-before-function-paren': 'off',
     'vue/singleline-html-element-content-newline': 'off',
-    'vue/html-self-closing': 'off'
+    'vue/html-self-closing': 'off',
+    'operator-linebreak': 'off'
   },
 };
