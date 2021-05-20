@@ -15,5 +15,8 @@ module.exports = {
     'vue/max-attributes-per-line': 'off',
     semi: 'off',
     'comma-dangle': 'off',
+    'space-before-function-paren': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/html-self-closing': 'off'
   },
 };
