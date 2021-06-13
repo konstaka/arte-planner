@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="login_message">Sign in to use ScoutGhoster</div>
+    <div class="login_message">Sign in to use ArtePlanner</div>
     <div class="google_login" @click="googleSignIn">
       <img
         :src="require('@/assets/btn_google_signin_light_normal_web@2x.png')"
@@ -9,7 +9,7 @@
       />
     </div>
     <div class="small_print">
-      ScoutGhoster will only work with whitelisted accounts. Contact your
+      ArtePlanner will only work with whitelisted accounts. Contact your
       administrator for more information.
     </div>
   </div>
