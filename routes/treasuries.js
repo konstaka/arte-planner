@@ -11,7 +11,15 @@ router.post('/', async (req, res) => {
       res.status(HttpStatus.BAD_REQUEST).end();
       return;
     }
-    const item = await save('treasury', req.body);
+    const newEntity = req.body;
+    const matchingVillage = await Village.findOne({
+      xCoord: newEntity.xCoord,
+      yCoord: newEntity.yCoord,
+    });
+    if (matchingVillage) {
+      newEntity.player = matchingVillage.playerName;
+    }
+    const item = await save('treasury', newEntity);
     res.location(`/treasuries/${item._id}`);
     res.status(HttpStatus.CREATED).end();
   } catch (e) {
@@ -38,6 +46,13 @@ router.put('/:id', async (req, res) => {
     }
     const toUpdate = req.body;
     toUpdate._id = req.params.id;
+    const matchingVillage = await Village.findOne({
+      xCoord: toUpdate.xCoord,
+      yCoord: toUpdate.yCoord,
+    });
+    if (matchingVillage) {
+      toUpdate.player = matchingVillage.playerName;
+    }
     await save('treasury', toUpdate);
     res.status(HttpStatus.NO_CONTENT).end();
   } catch (e) {

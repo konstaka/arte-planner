@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { ObjectId } = mongoose;
 
-const ArteSweepSchema = new Schema({
+const ArtesweepSchema = new Schema({
   id: ObjectId,
   // Ingame player name
   player: String,
@@ -23,4 +23,4 @@ const ArteSweepSchema = new Schema({
   clearWithHero: String,
 });
 
-module.exports = mongoose.model('ArteSweep', ArteSweepSchema);
+module.exports = mongoose.model('Artesweep', ArtesweepSchema);

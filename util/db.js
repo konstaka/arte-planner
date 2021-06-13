@@ -1,11 +1,11 @@
 const Artefact = require('../models/Artefact');
-const ArteSweep = require('../models/ArteSweep');
+const Artesweep = require('../models/Artesweep');
 const Catapoint = require('../models/Catapoint');
 const Treasury = require('../models/Treasury');
 
 const entities = {
   artefact: Artefact,
-  artesweep: ArteSweep,
+  artesweep: Artesweep,
   catapoint: Catapoint,
   treasury: Treasury,
 };

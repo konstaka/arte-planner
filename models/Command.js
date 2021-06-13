@@ -6,10 +6,12 @@ const { ObjectId } = mongoose;
 const CommandSchema = new Schema({
   id: ObjectId,
   artefactId: String,
-  arteSweepAccount: String,
+  artesweepAccount: String,
   artesweepId: String,
+  artesweepHero: Boolean,
   catapointAccount: String,
   catapointId: String,
+  catapointHero: Boolean,
   treasuryAccount: String,
   treasuryId: String,
 });
