@@ -41,6 +41,28 @@ const initialState = {
   maps: [0, 30, 40, 50],
   scoutArtes: [1, 3, 5, 10],
   arteSizes: ['small', 'large', 'unique'],
+  artefactCounts: [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+  ],
 };
 
 export default initialState;

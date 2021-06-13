@@ -13,6 +13,8 @@ const CatapointSchema = new Schema({
   yCoord: Number,
   // Tournament square: NUM(0 ... 20)
   tournamentSquare: Number,
+  // Hero boots: ENUM(25, 50, 75)
+  heroBoots: Number,
   // How many artefacts this catapoint can target: NUM(0 ... 100)
   artefacts: Number,
 });
