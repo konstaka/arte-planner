@@ -46,8 +46,6 @@ router.put('/:id', async (req, res) => {
     }
     const toUpdate = req.body;
     toUpdate._id = req.params.id;
-    const toUpdate = req.body;
-    toUpdate._id = req.params.id;
     const matchingVillage = await Village.findOne({
       xCoord: toUpdate.xCoord,
       yCoord: toUpdate.yCoord,
