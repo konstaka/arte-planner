@@ -12,7 +12,7 @@ const initialState = {
     size: 200,
     url: '',
   },
-  unitSpeeds: [3, 4, 5, 6, 7, 9, 10, 13, 14, 15, 16, 17, 19, 20, 22, 25],
+  unitSpeeds: [3, 4, 5, 6, 7, 9, 10, 13, 14, 15, 16, 17, 19, 20, 22, 24, 25],
   arteSpeeds: [0.33, 0.5, 0.67, 1, 1.5, 2],
   tsLevels: [
     0,
@@ -63,6 +63,7 @@ const initialState = {
     19,
     20,
   ],
+  treasuryLevels: [10, 20],
 };
 
 export default initialState;

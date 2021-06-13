@@ -32,21 +32,12 @@
       />
     </div>
     <div class="data_item without_hero">
-      clears
+      treasury level
       <DropDown
-        v-model.number="clearWithoutHero"
-        :options="arteSizes"
-        :initial-value="clearWithoutHero"
+        v-model.number="treasuryLvl"
+        :options="treasuryLevels"
+        :initial-value="treasuryLvl"
       />
-    </div>
-    <div class="data_item with_hero">
-      (
-      <DropDown
-        v-model.number="clearWithHero"
-        :options="arteSizes"
-        :initial-value="clearWithHero"
-      />
-      )
     </div>
     <div class="data_item add_button" @click="addAttacker">Add</div>
   </div>
@@ -56,11 +47,11 @@
 import DropDown from '@/components/common/DropDown';
 import api from '@/util/api';
 export default {
-  name: 'InsertArtesweep',
+  name: 'InsertTreasury',
   components: {
     DropDown,
   },
-  props: ['unitSpeeds', 'tsLevels', 'heroBoots', 'arteSizes'],
+  props: ['unitSpeeds', 'tsLevels', 'heroBoots', 'treasuryLevels'],
   data: () => ({
     xCoord: null,
     yCoord: null,
@@ -68,19 +59,17 @@ export default {
     arteSpeed: 1,
     tsLevel: 0,
     hero: 0,
-    clearWithoutHero: 'small',
-    clearWithHero: 'small',
+    treasuryLvl: 10,
   }),
   methods: {
     async addAttacker() {
-      await api().post('/artesweeps', {
+      await api().post('/treasuries', {
         xCoord: this.xCoord,
         yCoord: this.yCoord,
         unitSpeed: this.unitSpeed,
         tournamentSquare: this.tsLevel,
         heroBoots: this.hero,
-        clearWithoutHero: this.clearWithoutHero,
-        clearWithHero: this.clearWithHero,
+        treasuryLvl: this.treasuryLvl,
       });
       this.$store.dispatch('updateCycle');
     },
@@ -136,11 +125,7 @@ input {
 }
 
 .without_hero {
-  width: 9%;
-}
-
-.with_hero {
-  width: 7%;
+  width: 11%;
 }
 
 .add_button {
