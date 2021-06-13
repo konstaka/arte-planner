@@ -2,13 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '@/views/Login';
 import Home from '@/views/Home';
-import Targets from '@/views/Targets';
-import Attackers from '@/views/Attackers';
-import Scouts from '@/views/Scouts';
-import Ghosts from '@/views/Ghosts';
-import Selections from '@/views/Selections';
-import ScoutCommands from '@/views/ScoutCommands';
-import GhostCommands from '@/views/GhostCommands';
+import Commands from '@/views/Commands';
+import Artefacts from '@/views/Artefacts';
+import Artesweeps from '@/views/Artesweeps';
+import Catapoints from '@/views/Catapoints';
+import Treasuries from '@/views/Treasuries';
 import store from '@/store';
 
 Vue.use(VueRouter);
@@ -27,46 +25,34 @@ const routes = [
     roles: ['admin', 'defcoord'],
   },
   {
-    path: '/targets',
-    name: 'Targets',
-    component: Targets,
+    path: '/commands',
+    name: 'Commands',
+    component: Commands,
     roles: ['admin', 'defcoord'],
   },
   {
-    path: '/attackers',
-    name: 'Attackers',
-    component: Attackers,
+    path: '/artefacts',
+    name: 'Artefacts',
+    component: Artefacts,
     roles: ['admin', 'defcoord'],
   },
   {
-    path: '/scouts',
-    name: 'Scouts',
-    component: Scouts,
-    roles: ['admin', 'defcoord', 'scout'],
-  },
-  {
-    path: '/ghosts',
-    name: 'Ghosts',
-    component: Ghosts,
-    roles: ['admin', 'defcoord', 'ghost'],
-  },
-  {
-    path: '/selections',
-    name: 'Selections',
-    component: Selections,
+    path: '/artesweeps',
+    name: 'Artesweeps',
+    component: Artesweeps,
     roles: ['admin', 'defcoord'],
   },
   {
-    path: '/scoutcommands',
-    name: 'Scout Commands',
-    component: ScoutCommands,
-    roles: ['admin', 'scout'],
+    path: '/catapoints',
+    name: 'Catapoints',
+    component: Catapoints,
+    roles: ['admin', 'defcoord'],
   },
   {
-    path: '/ghostcommands',
-    name: 'Ghost Commands',
-    component: GhostCommands,
-    roles: ['admin', 'ghost'],
+    path: '/treasuries',
+    name: 'Treasuries',
+    component: Treasuries,
+    roles: ['admin', 'defcoord'],
   },
 ];
 

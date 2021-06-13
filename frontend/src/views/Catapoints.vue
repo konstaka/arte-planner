@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-    Here be the app
+    Here be catapoint listing
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Catapoints',
 };
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   width: 100%;
   margin: 0 auto;

@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-    Here be the app
+    Here be artefact parsing
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Artefacts',
 };
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   width: 100%;
   margin: 0 auto;

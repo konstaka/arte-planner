@@ -40,6 +40,7 @@ const initialState = {
   heroBoots: [0, 25, 50, 75],
   maps: [0, 30, 40, 50],
   scoutArtes: [1, 3, 5, 10],
+  arteSizes: ['small', 'large', 'unique'],
 };
 
 export default initialState;
