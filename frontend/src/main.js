@@ -15,11 +15,12 @@ Vue.use(GAuth, {
 });
 
 Vue.use(VueCookies);
+Vue.$cookies.config(null, null, null, null, 'Strict');
 
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App),
 }).$mount('#app');

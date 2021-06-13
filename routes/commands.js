@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     let commands = [];
-    if (req.authorizedUser.roles.include('admin')) {
+    if (req.authorizedUser.roles.includes('admin')) {
       commands = await Command.find();
     } else {
       commands = await Command.find({
