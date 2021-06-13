@@ -108,6 +108,7 @@ const checkAccess = (req, res, next) => {
       }
       break;
     case (req.url.match(/commands\/ghost/) || {}).input:
+    case (req.url.match(/commands/) || {}).input:
       if (!req.authorizedUser.roles.some((r) => GHOSTS.includes(r))) {
         res
           .status(HttpStatus.FORBIDDEN)
