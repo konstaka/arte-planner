@@ -6,10 +6,10 @@ export default {
     if (context.state.roles.includes('admin')) {
       await context.dispatch('getSettings');
       await context.dispatch('getCommands');
-      await context.dispatch('getArtefacts');
       await context.dispatch('getArtesweeps');
       await context.dispatch('getCatapoints');
       await context.dispatch('getTreasuries');
+      await context.dispatch('getArtefacts');
     }
     context.commit('LOADED');
   },

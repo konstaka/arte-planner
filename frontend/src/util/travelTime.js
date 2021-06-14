@@ -107,3 +107,34 @@ export const getGhostSend = (target, attacker, ghost) => {
   }
   return ghostSend;
 };
+
+export const getFetcherTravelTime = (artefact, attacker) => {
+  return getTravelTime(artefact, {
+    ...attacker,
+    arteSpeed: 1,
+    unitSpeed: attacker.unitSpeed || 3,
+  });
+};
+
+export const getShortestTime = artefact => {
+  return Math.max(
+    Math.min(
+      ...store.state.artesweeps.map(attacker =>
+        getFetcherTravelTime(artefact, attacker)
+      ),
+      Number.MAX_SAFE_INTEGER
+    ),
+    Math.min(
+      ...store.state.catapoints.map(attacker =>
+        getFetcherTravelTime(artefact, attacker)
+      ),
+      Number.MAX_SAFE_INTEGER
+    ),
+    Math.min(
+      ...store.state.treasuries.map(attacker =>
+        getFetcherTravelTime(artefact, attacker)
+      ),
+      Number.MAX_SAFE_INTEGER
+    )
+  );
+};

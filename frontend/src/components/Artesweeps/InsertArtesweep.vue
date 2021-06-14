@@ -34,7 +34,7 @@
     <div class="data_item without_hero">
       clears
       <DropDown
-        v-model.number="clearWithoutHero"
+        v-model="clearWithoutHero"
         :options="arteSizes"
         :initial-value="clearWithoutHero"
       />
@@ -42,7 +42,7 @@
     <div class="data_item with_hero">
       (
       <DropDown
-        v-model.number="clearWithHero"
+        v-model="clearWithHero"
         :options="arteSizes"
         :initial-value="clearWithHero"
       />

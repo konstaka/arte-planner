@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <ArtefactRow
-      v-for="artefact of $store.state.artefacts"
+      v-for="artefact of sortedArtefacts"
       :key="`artefact_${artefact.xCoord}_${artefact.yCoord}`"
       :artefact="artefact"
     />
@@ -9,10 +9,18 @@
 </template>
 
 <script>
-import ArtefactRow from '../components/Home/ArtefactRow.vue';
+import ArtefactRow from '@/components/Home/ArtefactRow.vue';
+import { getShortestTime } from '@/util/travelTime';
 export default {
   name: 'Home',
   components: { ArtefactRow },
+  computed: {
+    sortedArtefacts() {
+      return [...this.$store.state.artefacts].sort((a, b) => {
+        return getShortestTime(a) - getShortestTime(b);
+      });
+    },
+  },
 };
 </script>
 
