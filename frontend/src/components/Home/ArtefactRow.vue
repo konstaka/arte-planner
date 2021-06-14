@@ -82,7 +82,13 @@
         </option>
       </select>
     </div>
-    <div class="data_item confirm_button" @click="confirm">Confirm</div>
+    <div
+      class="data_item confirm_button"
+      :class="{ disabled: !confirmEnabled }"
+      @click="confirm"
+    >
+      Confirm
+    </div>
   </div>
 </template>
 
@@ -124,6 +130,9 @@ export default {
     timeLostWithSelections() {
       return new Date().toLocaleTimeString('en-GB', this.options);
     },
+    confirmEnabled() {
+      return this.artesweep && this.catapoint && this.treasury;
+    },
   },
   methods: {
     capitalise(str) {
@@ -141,7 +150,9 @@ export default {
       }${secs}`;
     },
     confirm() {
-      console.log('sending commands');
+      if (this.confirmEnabled) {
+        console.log('sending commands');
+      }
     },
   },
 };
@@ -242,5 +253,9 @@ export default {
   border: 1px solid #666666;
   background: #f0f4eb;
   cursor: pointer;
+}
+
+.disabled {
+  color: #1a1a1a31;
 }
 </style>
