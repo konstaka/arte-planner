@@ -1,4 +1,5 @@
 import store from '@/store/index';
+import { checkAvailability } from '@/selections';
 
 /**
  * Calculates travel time in seconds on a Travian T4 (2019) map
@@ -116,24 +117,24 @@ export const getFetcherTravelTime = (artefact, attacker) => {
   });
 };
 
-export const getShortestTime = artefact => {
+export const getShortestTime = (artefact, options) => {
   return Math.max(
     Math.min(
-      ...store.state.artesweeps.map(attacker =>
-        getFetcherTravelTime(artefact, attacker)
-      ),
+      ...(store.state.artesweeps || [])
+        .filter(attacker => checkAvailability(attacker, artefact, options))
+        .map(attacker => getFetcherTravelTime(artefact, attacker)),
       Number.MAX_SAFE_INTEGER
     ),
     Math.min(
-      ...store.state.catapoints.map(attacker =>
-        getFetcherTravelTime(artefact, attacker)
-      ),
+      ...(store.state.catapoints || [])
+        .filter(attacker => checkAvailability(attacker, artefact, options))
+        .map(attacker => getFetcherTravelTime(artefact, attacker)),
       Number.MAX_SAFE_INTEGER
     ),
     Math.min(
-      ...store.state.treasuries.map(attacker =>
-        getFetcherTravelTime(artefact, attacker)
-      ),
+      ...(store.state.treasuries || [])
+        .filter(attacker => checkAvailability(attacker, artefact, options))
+        .map(attacker => getFetcherTravelTime(artefact, attacker)),
       Number.MAX_SAFE_INTEGER
     )
   );

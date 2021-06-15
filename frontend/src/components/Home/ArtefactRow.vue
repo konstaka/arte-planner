@@ -7,28 +7,24 @@
       {{ capitalise(artefact.size) }} {{ capitalise(artefact.type) }}
     </div>
     <div class="data_item times">
-      {{ shortestTime }}
+      {{ formatTravelTime(shortestTimeWithSelections) }}
     </div>
     <div class="data_item dropdown_parent">
       <select v-model="artesweep" class="dropdown">
         <option :value="null">Select sweep...</option>
         <option
-          v-for="artesweep of $store.state.artesweeps"
+          v-for="artesweep of sortedAvailableSweeps"
           :key="
             `artesweep_to_artefact_${artesweep.xCoord}_${artesweep.yCoord}${artefact.xCoord}${artefact.yCoord}`
           "
           :value="{
-            player: artesweep.player,
-            _id: artesweep._id,
-            __v: artesweep.__v,
-            xCoord: artesweep.xCoord,
-            yCoord: artesweep.yCoord,
-            tournamentSquare: artesweep.tournamentSquare,
-            unitSpeed: artesweep.unitSpeed,
-            heroBoots: artesweep.heroBoots,
+            ...artesweep,
           }"
         >
-          {{ artesweep.player }} ({{ artesweep.xCoord }}|{{ artesweep.yCoord }})
+          {{ artesweep.player }} {{ artesweep.xCoord }}|{{
+            artesweep.yCoord
+          }}
+          [{{ clearSizeString(artesweep) }}]
           {{ formatTravelTime(travelTime(artesweep)) }}
         </option>
       </select>
@@ -37,22 +33,18 @@
       <select v-model="catapoint" class="dropdown">
         <option :value="null">Select catas...</option>
         <option
-          v-for="catapoint of $store.state.catapoints"
+          v-for="catapoint of sortedAvailableCatas"
           :key="
             `catapoint_to_artefact_${catapoint.xCoord}_${catapoint.yCoord}${catapoint.xCoord}${catapoint.yCoord}`
           "
           :value="{
-            player: catapoint.player,
-            _id: catapoint._id,
-            __v: catapoint.__v,
-            xCoord: catapoint.xCoord,
-            yCoord: catapoint.yCoord,
-            tournamentSquare: catapoint.tournamentSquare,
-            heroBoots: catapoint.heroBoots,
-            artefacts: catapoint.artefacts,
+            ...catapoint,
           }"
         >
-          {{ catapoint.player }} ({{ catapoint.xCoord }}|{{ catapoint.yCoord }})
+          {{ catapoint.player }} {{ catapoint.xCoord }}|{{
+            catapoint.yCoord
+          }}
+          [{{ catapoint.artefacts }}]
           {{ formatTravelTime(travelTime(catapoint)) }}
         </option>
       </select>
@@ -61,23 +53,17 @@
       <select v-model="treasury" class="dropdown">
         <option :value="null">Select hero...</option>
         <option
-          v-for="treasury of $store.state.treasuries"
+          v-for="treasury of sortedAvailableTreasuries"
           :key="
             `treasury_to_artefact_${treasury.xCoord}_${treasury.yCoord}${treasury.xCoord}${treasury.yCoord}`
           "
           :value="{
-            player: treasury.player,
-            _id: treasury._id,
-            __v: treasury.__v,
-            xCoord: treasury.xCoord,
-            yCoord: treasury.yCoord,
-            tournamentSquare: treasury.tournamentSquare,
-            unitSpeed: treasury.unitSpeed,
-            heroBoots: treasury.heroBoots,
-            treasuryLvl: treasury.treasuryLvl,
+            ...treasury,
           }"
         >
-          {{ treasury.player }} ({{ treasury.xCoord }}|{{ treasury.yCoord }})
+          {{ treasury.player }} {{ treasury.xCoord }}|{{ treasury.yCoord }} [{{
+            treasury.treasuryLvl
+          }}]
           {{ formatTravelTime(travelTime(treasury)) }}
         </option>
       </select>
@@ -95,6 +81,7 @@
 <script>
 import { capitalise } from '@/util/stringUtils';
 import { getFetcherTravelTime, getShortestTime } from '@/util/travelTime';
+import { checkAvailability } from '@/selections';
 export default {
   name: 'ArtefactRow',
   props: ['artefact'],
@@ -121,17 +108,100 @@ export default {
         storage: this.artefact.type === 'storage',
       };
     },
+    availableSweeps() {
+      return this.$store.state.artesweeps.filter(attacker =>
+        checkAvailability(attacker, this.artefact, { considerSelections: true })
+      );
+    },
+    availableCatas() {
+      return this.$store.state.catapoints.filter(attacker =>
+        checkAvailability(attacker, this.artefact, { considerSelections: true })
+      );
+    },
+    availableTreasuries() {
+      return this.$store.state.treasuries.filter(attacker =>
+        checkAvailability(attacker, this.artefact, { considerSelections: true })
+      );
+    },
+    sortedAvailableSweeps() {
+      return [...this.availableSweeps].sort((a, b) => {
+        return (
+          getFetcherTravelTime(this.artefact, a) -
+          getFetcherTravelTime(this.artefact, b)
+        );
+      });
+    },
+    sortedAvailableCatas() {
+      return [...this.availableCatas].sort((a, b) => {
+        return (
+          getFetcherTravelTime(this.artefact, a) -
+          getFetcherTravelTime(this.artefact, b)
+        );
+      });
+    },
+    sortedAvailableTreasuries() {
+      return [...this.availableTreasuries].sort((a, b) => {
+        return (
+          getFetcherTravelTime(this.artefact, a) -
+          getFetcherTravelTime(this.artefact, b)
+        );
+      });
+    },
     shortestTime() {
-      return this.formatTravelTime(getShortestTime(this.artefact));
+      return getShortestTime(this.artefact, { considerSelections: false });
     },
     shortestTimeWithSelections() {
-      return new Date().toLocaleTimeString('en-GB', this.options);
+      return getShortestTime(this.artefact, { considerSelections: true });
     },
     timeLostWithSelections() {
-      return new Date().toLocaleTimeString('en-GB', this.options);
+      return this.shortestTimeWithSelections - this.shortestTime;
     },
     confirmEnabled() {
       return this.artesweep && this.catapoint && this.treasury;
+    },
+  },
+  watch: {
+    artesweep(newV, oldV) {
+      if (newV) {
+        this.$store.dispatch('addSelection', {
+          artefact: this.artefact,
+          attacker: newV,
+        });
+      }
+      if (oldV) {
+        this.$store.dispatch('removeSelection', {
+          artefact: this.artefact,
+          attacker: oldV,
+        });
+      }
+    },
+    catapoint(newV, oldV) {
+      if (newV) {
+        this.$store.dispatch('addSelection', {
+          artefact: this.artefact,
+          attacker: newV,
+        });
+      }
+      if (oldV) {
+        this.$store.dispatch('removeSelection', {
+          artefact: this.artefact,
+          attacker: oldV,
+        });
+      }
+    },
+    treasury(newV, oldV) {
+      if (newV) {
+        this.$store.dispatch('addSelection', {
+          artefact: this.artefact,
+          attacker: newV,
+        });
+      }
+      if (oldV) {
+        this.$store.dispatch('removeSelection', {
+          artefact: this.artefact,
+          attacker: oldV,
+        });
+      }
     },
   },
   methods: {
@@ -145,9 +215,16 @@ export default {
       const hrs = Math.floor(seconds / 3600);
       const mins = Math.floor((seconds - hrs * 3600) / 60);
       const secs = seconds - hrs * 3600 - mins * 60;
-      return `${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${
-        secs < 10 ? '0' : ''
-      }${secs}`;
+      return hrs < 100
+        ? `${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${
+            secs < 10 ? '0' : ''
+          }${secs}`
+        : '99:99:99';
+    },
+    clearSizeString(artesweep) {
+      return `${capitalise(
+        artesweep.clearWithoutHero.substring(0, 1)
+      )}/${capitalise(artesweep.clearWithHero.substring(0, 1))}`;
     },
     confirm() {
       if (this.confirmEnabled) {
@@ -220,12 +297,12 @@ export default {
 }
 
 .dropdown_parent {
-  width: 222px;
+  width: 282px;
   margin-left: 15px;
 }
 
 .dropdown {
-  width: 215px;
+  width: 275px;
   background: #ebf0f4;
   cursor: pointer;
 }

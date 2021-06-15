@@ -17,7 +17,10 @@ export default {
   computed: {
     sortedArtefacts() {
       return [...this.$store.state.artefacts].sort((a, b) => {
-        return getShortestTime(a) - getShortestTime(b);
+        return (
+          getShortestTime(a, { considerSelections: false }) -
+          getShortestTime(b, { considerSelections: false })
+        );
       });
     },
   },

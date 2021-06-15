@@ -2,11 +2,6 @@ const initialState = {
   isSignIn: false,
   loaded: false,
   roles: [],
-  commands: [],
-  artefacts: [],
-  artesweeps: [],
-  catapoints: [],
-  treasuries: [],
   serverConfig: {
     speed: 1,
     size: 200,
@@ -40,6 +35,11 @@ const initialState = {
   heroBoots: [0, 25, 50, 75],
   maps: [0, 30, 40, 50],
   scoutArtes: [1, 3, 5, 10],
+  artefacts: [],
+  commands: [],
+  catapoints: [],
+  selections: {},
+  usedHeros: {},
   arteSizes: ['small', 'large', 'unique'],
   artefactCounts: [
     1,

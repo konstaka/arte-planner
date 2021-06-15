@@ -1,8 +1,10 @@
 import initialState from './state';
 import Vue from 'vue';
+
 export default {
   SIGN_IN(state) {
     state.isSignIn = true;
+    state.loaded = false;
   },
   SIGN_OUT(state) {
     for (const prop in state) {
@@ -19,19 +21,67 @@ export default {
   SET_CONFIG(state, settings) {
     state.serverConfig = settings;
   },
-  SET_COMMANDS(state, commands) {
-    state.commands = commands;
-  },
-  SET_ARTEFACTS(state, artefacts) {
-    state.artefacts = artefacts;
-  },
   SET_ARTESWEEPS(state, artesweeps) {
     state.artesweeps = artesweeps;
+  },
+  SET_ARTESWEEPS_FOR(state, artesweeps) {
+    state.sweepsForUnique = artesweeps.unique;
+    state.sweepsForLarge = artesweeps.large;
+    state.sweepsForSmall = artesweeps.small;
   },
   SET_CATAPOINTS(state, catapoints) {
     state.catapoints = catapoints;
   },
   SET_TREASURIES(state, treasuries) {
     state.treasuries = treasuries;
+  },
+  SET_TREASURIES_FOR(state, treasuries) {
+    state.treasuriesForUnique = treasuries.unique;
+    state.treasuriesForLarge = treasuries.large;
+    state.treasuriesForSmall = treasuries.small;
+  },
+  SET_USED_HEROS(state, usedHeros) {
+    state.usedHeros = usedHeros;
+  },
+  SET_ARTEFACTS(state, artefacts) {
+    state.artefacts = artefacts;
+  },
+  SET_COMMANDS(state, commands) {
+    state.commands = commands;
+  },
+  ADD_SELECTION(state, { artefact, attacker }) {
+    const selections = { ...state.selections };
+    if (!selections[artefact._id]) {
+      selections[artefact._id] = {};
+    }
+    selections[artefact._id][attacker._id] = true;
+    state.selections = selections;
+    // TODO: hero
+    // if (selection.clearWithoutHero) {
+    //   ['unique', 'large', 'small'].forEach(size => {
+    //     state[`availableSweepsFor${capitalise(size)}`] = state[
+    //       `availableSweepsFor${capitalise(size)}`
+    //     ].filter(sweep => sweep._id !== selection._id);
+    //   });
+    // }
+  },
+  REMOVE_SELECTION(state, { artefact, attacker }) {
+    const selections = { ...state.selections };
+    if (selections[artefact._id]) {
+      delete selections[artefact._id][attacker._id];
+    }
+    state.selections = selections;
+    // TODO: hero
+    // if (selection.clearWithoutHero) {
+    //   ['unique', 'large', 'small'].forEach(size => {
+    //     if (
+    //       [selection.clearWithoutHero, selection.clearWithHero].some(
+    //         clear => comparableArteSize(clear) >= comparableArteSize(size)
+    //       )
+    //     ) {
+    //       state[`availableSweepsFor${capitalise(size)}`].push(selection);
+    //     }
+    //   });
+    // }
   },
 };
