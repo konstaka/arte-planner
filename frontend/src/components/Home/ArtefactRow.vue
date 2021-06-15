@@ -7,7 +7,13 @@
       {{ capitalise(artefact.size) }} {{ capitalise(artefact.type) }}
     </div>
     <div class="data_item times">
+      <div class="upper_time" v-if="timeLostWithSelections">
+        {{ formatTravelTime(shortestTime) }}
+      </div>
       {{ formatTravelTime(shortestTimeWithSelections) }}
+      <div class="lower_time" v-if="timeLostWithSelections">
+        +{{ formatTravelTime(timeLostWithSelections) }}
+      </div>
     </div>
     <div class="data_item dropdown_parent">
       <select v-model="artesweep" class="dropdown">
@@ -215,11 +221,11 @@ export default {
       const hrs = Math.floor(seconds / 3600);
       const mins = Math.floor((seconds - hrs * 3600) / 60);
       const secs = seconds - hrs * 3600 - mins * 60;
-      return hrs < 100
+      return hrs < 1000
         ? `${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${
             secs < 10 ? '0' : ''
           }${secs}`
-        : '99:99:99';
+        : 'N/A';
     },
     clearSizeString(artesweep) {
       return `${capitalise(
@@ -280,7 +286,7 @@ export default {
   width: 140px;
   height: 22px;
   display: inline-block;
-  overflow: hidden;
+  overflow: visible;
   text-align: left;
 }
 
@@ -294,6 +300,24 @@ export default {
 
 .times {
   width: 80px;
+  text-align: center;
+  position: relative;
+}
+
+.upper_time {
+  position: absolute;
+  top: -10px;
+  width: 100%;
+  font-size: 0.6em;
+  text-decoration-line: line-through;
+}
+
+.lower_time {
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
+  font-size: 0.6em;
+  color: red;
 }
 
 .dropdown_parent {
