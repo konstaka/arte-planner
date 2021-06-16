@@ -56,14 +56,6 @@ export default {
     }
     selections[artefact._id][attacker._id] = true;
     state.selections = selections;
-    // TODO: hero
-    // if (selection.clearWithoutHero) {
-    //   ['unique', 'large', 'small'].forEach(size => {
-    //     state[`availableSweepsFor${capitalise(size)}`] = state[
-    //       `availableSweepsFor${capitalise(size)}`
-    //     ].filter(sweep => sweep._id !== selection._id);
-    //   });
-    // }
   },
   REMOVE_SELECTION(state, { artefact, attacker }) {
     const selections = { ...state.selections };
@@ -71,17 +63,9 @@ export default {
       delete selections[artefact._id][attacker._id];
     }
     state.selections = selections;
-    // TODO: hero
-    // if (selection.clearWithoutHero) {
-    //   ['unique', 'large', 'small'].forEach(size => {
-    //     if (
-    //       [selection.clearWithoutHero, selection.clearWithHero].some(
-    //         clear => comparableArteSize(clear) >= comparableArteSize(size)
-    //       )
-    //     ) {
-    //       state[`availableSweepsFor${capitalise(size)}`].push(selection);
-    //     }
-    //   });
-    // }
+  },
+  // TODO: remove this and manage heros in selections
+  SET_HERO(state, { player, value }) {
+    state.usedHeros[player] = value;
   },
 };

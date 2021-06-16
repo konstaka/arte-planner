@@ -20,15 +20,6 @@ export default {
   async getArtesweeps(context) {
     const res = await api().get('/artesweeps');
     context.commit('SET_ARTESWEEPS', res.data);
-    // const sweepsFor = {};
-    // ['unique', 'large', 'small'].forEach(size => {
-    //   sweepsFor[size] = (res.data || []).filter(sweep =>
-    //     [sweep.clearWithoutHero, sweep.clearWithHero].some(
-    //       clear => comparableArteSize(clear) >= comparableArteSize(size)
-    //     )
-    //   );
-    // });
-    // context.commit('SET_ARTESWEEPS_FOR', sweepsFor);
   },
   async getCatapoints(context) {
     const res = await api().get('/catapoints');
@@ -37,14 +28,6 @@ export default {
   async getTreasuries(context) {
     const res = await api().get('/treasuries');
     context.commit('SET_TREASURIES', res.data);
-    // const treasuriesFor = {};
-    // ['unique', 'large', 'small'].forEach(size => {
-    //   treasuriesFor[size] = (res.data || []).filter(
-    //     treasury =>
-    //       comparableArteSize(treasury.treasuryLvl) >= comparableArteSize(size)
-    //   );
-    // });
-    // context.commit('SET_TREASURIES_FOR', treasuriesFor);
   },
   async getArtefacts(context) {
     const res = await api().get('/artefacts');
@@ -63,10 +46,14 @@ export default {
     //   }
     // }
   },
-  async addSelection(context, { artefact, attacker }) {
-    context.commit('ADD_SELECTION', { artefact, attacker });
+  async addSelection(context, args) {
+    context.commit('ADD_SELECTION', args);
   },
-  async removeSelection(context, artefact, attacker) {
-    context.commit('REMOVE_SELECTION', artefact, attacker);
+  async removeSelection(context, args) {
+    context.commit('REMOVE_SELECTION', args);
+  },
+  // TODO: remove this and manage heros in selections
+  async setHero(context, args) {
+    context.commit('SET_HERO', args);
   },
 };

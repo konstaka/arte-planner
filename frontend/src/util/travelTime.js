@@ -109,12 +109,16 @@ export const getGhostSend = (target, attacker, ghost) => {
   return ghostSend;
 };
 
-export const getFetcherTravelTime = (artefact, attacker) => {
-  return getTravelTime(artefact, {
+export const getFetcherTravelTime = (artefact, attacker, { hero }) => {
+  const finalAttacker = {
     ...attacker,
     arteSpeed: 1,
     unitSpeed: attacker.unitSpeed || 3,
-  });
+  };
+  if (!hero) {
+    delete finalAttacker.heroBoots;
+  }
+  return getTravelTime(artefact, finalAttacker);
 };
 
 export const getShortestTime = (artefact, options) => {
@@ -122,19 +126,25 @@ export const getShortestTime = (artefact, options) => {
     Math.min(
       ...(store.state.artesweeps || [])
         .filter(attacker => checkAvailability(attacker, artefact, options))
-        .map(attacker => getFetcherTravelTime(artefact, attacker)),
+        .map(attacker =>
+          getFetcherTravelTime(artefact, attacker, { hero: options.sweepHero })
+        ),
       Number.MAX_SAFE_INTEGER
     ),
     Math.min(
       ...(store.state.catapoints || [])
         .filter(attacker => checkAvailability(attacker, artefact, options))
-        .map(attacker => getFetcherTravelTime(artefact, attacker)),
+        .map(attacker =>
+          getFetcherTravelTime(artefact, attacker, { hero: options.cataHero })
+        ),
       Number.MAX_SAFE_INTEGER
     ),
     Math.min(
       ...(store.state.treasuries || [])
         .filter(attacker => checkAvailability(attacker, artefact, options))
-        .map(attacker => getFetcherTravelTime(artefact, attacker)),
+        .map(attacker =>
+          getFetcherTravelTime(artefact, attacker, { hero: true })
+        ),
       Number.MAX_SAFE_INTEGER
     )
   );

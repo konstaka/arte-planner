@@ -39,7 +39,7 @@ const initialState = {
   commands: [],
   catapoints: [],
   selections: {},
-  usedHeros: {},
+  usedHeros: {}, // TODO: remove
   arteSizes: ['small', 'large', 'unique'],
   artefactCounts: [
     1,

@@ -16,7 +16,6 @@ export function comparableArteSize(arteSize) {
 }
 
 export function checkAvailability(attacker, artefact, { considerSelections }) {
-  // TODO: hero checks
   // insufficient clear size
   if (attacker.clearWithoutHero) {
     if (
@@ -54,6 +53,8 @@ export function checkAvailability(attacker, artefact, { considerSelections }) {
       return false;
     }
   }
+
+  // TODO: hero checks
 
   return true;
 }
