@@ -101,11 +101,13 @@ export default {
   width: 12%;
   text-align: right;
   padding-right: 5px;
+  position: relative;
 }
 
 .coord_box {
   width: 42px;
   margin-right: 15px;
+  position: initial;
 }
 
 input {

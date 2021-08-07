@@ -25,18 +25,6 @@ const routes = [
     roles: ['admin', 'defcoord'],
   },
   {
-    path: '/commands',
-    name: 'Commands',
-    component: Commands,
-    roles: ['admin', 'defcoord'],
-  },
-  {
-    path: '/artefacts',
-    name: 'Artefacts',
-    component: Artefacts,
-    roles: ['admin', 'defcoord'],
-  },
-  {
     path: '/artesweeps',
     name: 'Artesweeps',
     component: Artesweeps,
@@ -52,6 +40,18 @@ const routes = [
     path: '/treasuries',
     name: 'Treasuries',
     component: Treasuries,
+    roles: ['admin', 'defcoord'],
+  },
+  {
+    path: '/artefacts',
+    name: 'Artefacts',
+    component: Artefacts,
+    roles: ['admin', 'defcoord'],
+  },
+  {
+    path: '/commands',
+    name: 'Commands',
+    component: Commands,
     roles: ['admin', 'defcoord'],
   },
 ];
