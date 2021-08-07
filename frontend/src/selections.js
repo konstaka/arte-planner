@@ -17,16 +17,15 @@ export function comparableArteSize(arteSize) {
 
 export function checkAvailability(attacker, artefact, { considerSelections }) {
   // insufficient clear size
-  if (attacker.clearWithoutHero) {
+  if (attacker.clearWithHero) {
     if (
-      comparableArteSize(attacker.clearWithoutHero) <
-        comparableArteSize(artefact.size) &&
       comparableArteSize(attacker.clearWithHero) <
-        comparableArteSize(artefact.size)
+      comparableArteSize(artefact.size)
     ) {
       return false;
     }
   }
+
   // insufficient treasury level
   if (attacker.treasuryLvl) {
     if (
@@ -53,8 +52,6 @@ export function checkAvailability(attacker, artefact, { considerSelections }) {
       return false;
     }
   }
-
-  // TODO: hero checks
 
   return true;
 }

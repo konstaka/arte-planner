@@ -34,7 +34,7 @@
           {{ formatTravelTime(sweepTravelTime(artesweep)) }}
         </option>
       </select>
-      <HeroCheckbox v-model="sweepHero" :disabled="sweepHeroUsed" />
+      <HeroCheckbox />
     </div>
     <div class="data_item dropdown_parent">
       <select v-model="catapoint" class="dropdown">
@@ -55,7 +55,7 @@
           {{ formatTravelTime(catapointTravelTime(catapoint)) }}
         </option>
       </select>
-      <HeroCheckbox v-model="cataHero" :disabled="cataHeroUsed" />
+      <HeroCheckbox />
     </div>
     <div class="data_item dropdown_parent">
       <select v-model="treasury" class="dropdown">
@@ -104,8 +104,6 @@ export default {
     artesweep: null,
     catapoint: null,
     treasury: null,
-    sweepHero: false,
-    cataHero: false,
   }),
   computed: {
     dynamicClasses() {
@@ -153,29 +151,15 @@ export default {
     shortestTime() {
       return getShortestTime(this.artefact, {
         considerSelections: false,
-        sweepHero: this.sweepHero,
-        cataHero: this.cataHero,
       });
     },
     shortestTimeWithSelections() {
       return getShortestTime(this.artefact, {
         considerSelections: true,
-        sweepHero: this.sweepHero,
-        cataHero: this.cataHero,
       });
     },
     timeLostWithSelections() {
       return this.shortestTimeWithSelections - this.shortestTime;
-    },
-    sweepHeroUsed() {
-      return (
-        this.artesweep && this.$store.state.usedHeros[this.artesweep.player]
-      );
-    },
-    cataHeroUsed() {
-      return (
-        this.catapoint && this.$store.state.usedHeros[this.catapoint.player]
-      );
     },
     confirmEnabled() {
       return this.artesweep && this.catapoint && this.treasury;
@@ -188,27 +172,12 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
-        if (this.sweepHero) {
-          this.$store.dispatch('setHero', {
-            player: oldV.player,
-            value: false,
-          });
-        }
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
           artefact: this.artefact,
           attacker: newV,
         });
-        if (this.sweepHeroUsed) {
-          this.sweepHero = false;
-        }
-        if (this.sweepHero) {
-          this.$store.dispatch('setHero', {
-            player: newV.player,
-            value: true,
-          });
-        }
       }
     },
     catapoint(newV, oldV) {
@@ -217,28 +186,12 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
-        // TODO: move hero management to store actions
-        if (this.cataHero) {
-          this.$store.dispatch('setHero', {
-            player: oldV.player,
-            value: false,
-          });
-        }
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
           artefact: this.artefact,
           attacker: newV,
         });
-        if (this.cataHeroUsed) {
-          this.cataHero = false;
-        }
-        if (this.cataHero) {
-          this.$store.dispatch('setHero', {
-            player: newV.player,
-            value: true,
-          });
-        }
       }
     },
     treasury(newV, oldV) {
@@ -247,35 +200,11 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
-        this.$store.dispatch('setHero', {
-          player: oldV.player,
-          value: false,
-        });
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
           artefact: this.artefact,
           attacker: newV,
-        });
-        this.$store.dispatch('setHero', {
-          player: newV.player,
-          value: true,
-        });
-      }
-    },
-    sweepHero(newV, oldV) {
-      if (this.artesweep) {
-        this.$store.dispatch('setHero', {
-          player: this.artesweep.player,
-          value: newV,
-        });
-      }
-    },
-    cataHero(newV, oldV) {
-      if (this.catapoint) {
-        this.$store.dispatch('setHero', {
-          player: this.catapoint.player,
-          value: newV,
         });
       }
     },
@@ -285,14 +214,10 @@ export default {
       return capitalise(str);
     },
     sweepTravelTime(attacker) {
-      return getFetcherTravelTime(this.artefact, attacker, {
-        hero: this.sweepHero,
-      });
+      return getFetcherTravelTime(this.artefact, attacker, {});
     },
     catapointTravelTime(attacker) {
-      return getFetcherTravelTime(this.artefact, attacker, {
-        hero: this.cataHero,
-      });
+      return getFetcherTravelTime(this.artefact, attacker, {});
     },
     treasuryTravelTime(attacker) {
       return getFetcherTravelTime(this.artefact, attacker, { hero: true });

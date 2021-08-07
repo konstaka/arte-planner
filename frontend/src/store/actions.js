@@ -36,24 +36,11 @@ export default {
   async getCommands(context) {
     const res = await api().get('/commands');
     context.commit('SET_COMMANDS', res.data);
-    // TODO
-    // const usedHeros = {};
-    // for (const command of res.data || []) {
-    //   if (command.arteSweepHero) {
-    //     usedHeros[command.arteSweepAccount] = true;
-    //   }
-    //   if (command.catapointHero) {
-    //   }
-    // }
   },
   async addSelection(context, args) {
     context.commit('ADD_SELECTION', args);
   },
   async removeSelection(context, args) {
     context.commit('REMOVE_SELECTION', args);
-  },
-  // TODO: remove this and manage heros in selections
-  async setHero(context, args) {
-    context.commit('SET_HERO', args);
   },
 };

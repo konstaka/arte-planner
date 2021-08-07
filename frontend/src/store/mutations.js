@@ -40,9 +40,6 @@ export default {
     state.treasuriesForLarge = treasuries.large;
     state.treasuriesForSmall = treasuries.small;
   },
-  SET_USED_HEROS(state, usedHeros) {
-    state.usedHeros = usedHeros;
-  },
   SET_ARTEFACTS(state, artefacts) {
     state.artefacts = artefacts;
   },
@@ -63,9 +60,5 @@ export default {
       delete selections[artefact._id][attacker._id];
     }
     state.selections = selections;
-  },
-  // TODO: remove this and manage heros in selections
-  SET_HERO(state, { player, value }) {
-    state.usedHeros[player] = value;
   },
 };
