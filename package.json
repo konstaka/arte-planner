@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "deploy": "cd frontend && rm -rf dist && npm run build",
-    "prestart": "cd frontend && npm install --only=dev && npm run build",
     "start": "cross-env NODE_ENV=production node ./bin/www",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon ./bin/www\" \" cd frontend && cross-env NODE_ENV=development npm run serve\"",
-    "lint": "eslint --fix . && cd frontend && npm run lint"
+    "lint": "eslint --fix . && cd frontend && npm run lint",
+    "heroku-postbuild": "cd frontend && npm install --only=dev && npm run build"
   },
   "dependencies": {
     "axios": "^0.21.1",
