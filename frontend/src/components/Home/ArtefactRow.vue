@@ -1,87 +1,96 @@
 <template>
   <div class="arte_row" :class="dynamicClasses">
-    <div class="data_item coords">
-      {{ artefact.xCoord }}|{{ artefact.yCoord }}
+    <div v-if="!collapsed" class="collapse_button" @click="collapsed = true">
+      -
     </div>
-    <div class="data_item arte_name">
-      {{ capitalise(artefact.size) }} {{ capitalise(artefact.type) }}
+    <div v-if="collapsed" class="expand_button" @click="collapsed = false">
+      +
     </div>
-    <div class="data_item times">
-      <div v-if="timeLostWithSelections" class="upper_time">
-        {{ formatTravelTime(shortestTime) }}
+    <div v-if="!collapsed">
+      <div class="data_item coords">
+        {{ artefact.xCoord }}|{{ artefact.yCoord }}
       </div>
-      {{ formatTravelTime(shortestTimeWithSelections) }}
-      <div v-if="timeLostWithSelections" class="lower_time">
-        +{{ formatTravelTime(timeLostWithSelections) }}
+      <div class="data_item arte_name">
+        {{ capitalise(artefact.size) }} {{ capitalise(artefact.type) }}
       </div>
-    </div>
-    <div class="data_item dropdown_parent">
-      <select v-model="artesweep" class="dropdown">
-        <option :value="null">Select sweep...</option>
-        <option
-          v-for="artesweep of sortedAvailableSweeps"
-          :key="
-            `artesweep_to_artefact_${artesweep.xCoord}_${artesweep.yCoord}${artefact.xCoord}${artefact.yCoord}`
-          "
-          :value="{
-            ...artesweep,
-          }"
-        >
-          {{ artesweep.player }} {{ artesweep.xCoord }}|{{
-            artesweep.yCoord
-          }}
-          [{{ clearSizeString(artesweep) }}]
-          {{ formatTravelTime(sweepTravelTime(artesweep)) }}
-        </option>
-      </select>
-      <HeroCheckbox />
-    </div>
-    <div class="data_item dropdown_parent">
-      <select v-model="catapoint" class="dropdown">
-        <option :value="null">Select catas...</option>
-        <option
-          v-for="catapoint of sortedAvailableCatas"
-          :key="
-            `catapoint_to_artefact_${catapoint.xCoord}_${catapoint.yCoord}${catapoint.xCoord}${catapoint.yCoord}`
-          "
-          :value="{
-            ...catapoint,
-          }"
-        >
-          {{ catapoint.player }} {{ catapoint.xCoord }}|{{
-            catapoint.yCoord
-          }}
-          [{{ catapoint.artefacts }}]
-          {{ formatTravelTime(catapointTravelTime(catapoint)) }}
-        </option>
-      </select>
-      <HeroCheckbox />
-    </div>
-    <div class="data_item dropdown_parent">
-      <select v-model="treasury" class="dropdown">
-        <option :value="null">Select hero...</option>
-        <option
-          v-for="treasury of sortedAvailableTreasuries"
-          :key="
-            `treasury_to_artefact_${treasury.xCoord}_${treasury.yCoord}${treasury.xCoord}${treasury.yCoord}`
-          "
-          :value="{
-            ...treasury,
-          }"
-        >
-          {{ treasury.player }} {{ treasury.xCoord }}|{{ treasury.yCoord }} [{{
-            treasury.treasuryLvl
-          }}]
-          {{ formatTravelTime(treasuryTravelTime(treasury)) }}
-        </option>
-      </select>
-    </div>
-    <div
-      class="data_item confirm_button"
-      :class="{ disabled: !confirmEnabled }"
-      @click="confirm"
-    >
-      Confirm
+      <div class="data_item times">
+        <div v-if="timeLostWithSelections" class="upper_time">
+          {{ formatTravelTime(shortestTime) }}
+        </div>
+        {{ formatTravelTime(shortestTimeWithSelections) }}
+        <div v-if="timeLostWithSelections" class="lower_time">
+          +{{ formatTravelTime(timeLostWithSelections) }}
+        </div>
+      </div>
+      <div class="data_item dropdown_parent">
+        <select v-model="artesweep" class="dropdown">
+          <option :value="null">Select sweep...</option>
+          <option
+            v-for="artesweep of sortedAvailableSweeps"
+            :key="
+              `artesweep_to_artefact_${artesweep.xCoord}_${artesweep.yCoord}${artefact.xCoord}${artefact.yCoord}`
+            "
+            :value="{
+              ...artesweep,
+            }"
+          >
+            {{ artesweep.player }} {{ artesweep.xCoord }}|{{
+              artesweep.yCoord
+            }}
+            [{{ clearSizeString(artesweep) }}]
+            {{ formatTravelTime(sweepTravelTime(artesweep)) }}
+          </option>
+        </select>
+        <HeroCheckbox />
+      </div>
+      <div class="data_item dropdown_parent">
+        <select v-model="catapoint" class="dropdown">
+          <option :value="null">Select catas...</option>
+          <option
+            v-for="catapoint of sortedAvailableCatas"
+            :key="
+              `catapoint_to_artefact_${catapoint.xCoord}_${catapoint.yCoord}${catapoint.xCoord}${catapoint.yCoord}`
+            "
+            :value="{
+              ...catapoint,
+            }"
+          >
+            {{ catapoint.player }} {{ catapoint.xCoord }}|{{
+              catapoint.yCoord
+            }}
+            [{{ catapoint.artefacts }}]
+            {{ formatTravelTime(catapointTravelTime(catapoint)) }}
+          </option>
+        </select>
+        <HeroCheckbox />
+      </div>
+      <div class="data_item dropdown_parent">
+        <select v-model="treasury" class="dropdown">
+          <option :value="null">Select hero...</option>
+          <option
+            v-for="treasury of sortedAvailableTreasuries"
+            :key="
+              `treasury_to_artefact_${treasury.xCoord}_${treasury.yCoord}${treasury.xCoord}${treasury.yCoord}`
+            "
+            :value="{
+              ...treasury,
+            }"
+          >
+            {{ treasury.player }} {{ treasury.xCoord }}|{{
+              treasury.yCoord
+            }}
+            [{{ treasury.treasuryLvl }}]
+            {{ formatTravelTime(treasuryTravelTime(treasury)) }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="data_item confirm_button"
+        :class="{ disabled: !confirmEnabled }"
+        @click="confirm"
+      >
+        Confirm
+      </div>
     </div>
   </div>
 </template>
@@ -105,6 +114,7 @@ export default {
     artesweep: null,
     catapoint: null,
     treasury: null,
+    collapsed: false,
   }),
   computed: {
     dynamicClasses() {
@@ -117,6 +127,7 @@ export default {
         fool: this.artefact.type === 'fool',
         architect: this.artefact.type === 'architect',
         storage: this.artefact.type === 'storage',
+        collapsed: this.collapsed,
       };
     },
     availableSweeps() {
@@ -271,6 +282,11 @@ export default {
   margin: 0px auto;
 }
 
+.collapsed {
+  height: 14px;
+  padding: 0;
+}
+
 .eyes {
   background: #2d9bf059;
 }
@@ -380,5 +396,38 @@ export default {
 
 .disabled {
   color: #1a1a1a31;
+}
+
+.collapse_button {
+  width: 8px;
+  height: 8px;
+  line-height: 7px;
+  position: absolute;
+  font-weight: bold;
+  border: 1px solid;
+  margin-top: 5px;
+  padding: 1px 4px 1px 4px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.expand_button {
+  width: 8px;
+  height: 8px;
+  line-height: 8px;
+  position: absolute;
+  font-weight: bold;
+  border: 1px solid;
+  margin-left: 15px;
+  margin-top: 1px;
+  padding: 1px 5px 1px 3px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 </style>
