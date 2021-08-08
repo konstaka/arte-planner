@@ -31,13 +31,13 @@ const sendLaunchNotifications = async (command) => {
     // prettier-ignore
     const content = `
     Targeting ${capitalise(artefact.size)} ${capitalise(artefact.type)} (${artefact.xCoord}|${artefact.yCoord}):\n
-      SWEEP - ${artesweep.player} (${artesweep.xCoord}|${artefact.yCoord}); ${command.artesweepHero ? 'WITH HERO' : 'NO HERO'}\n
+      SWEEP - ${artesweep.player} (${artesweep.xCoord}|${artesweep.yCoord}); ${command.artesweepHero ? 'WITH HERO' : 'NO HERO'}\n
       CATAPOINT - ${catapoint.player} (${catapoint.xCoord}|${catapoint.yCoord}); ${command.catapointHero ? 'WITH HERO' : 'NO HERO'}\n
       TREASURY - ${treasury.player} (${treasury.xCoord}|${treasury.yCoord})\n
     ${capitalise(timing[0].type)} sends first, ${timing[1].type} +${formatTime(timing[0].time - timing[1].time)}, ${timing[2].type} +${formatTime(timing[0].time - timing[2].time)}.
     Make sure to communicate the times with everyone involved. GO!!!`;
     console.log(content);
-    await axios.post(discord, { content });
+    // await axios.post(discord, { content });
   }
 };
 
