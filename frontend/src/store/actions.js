@@ -46,6 +46,39 @@ export default {
           return true;
         })
       );
+      context.commit(
+        'SET_COMMANDED_ARTESWEEPS',
+        artesweeps.data.filter(artesweep => {
+          for (const command of commands.data) {
+            if (command.artesweepId === artesweep._id) {
+              return true;
+            }
+          }
+          return false;
+        })
+      );
+      context.commit(
+        'SET_COMMANDED_CATAPOINTS',
+        catapoints.data.filter(catapoint => {
+          for (const command of commands.data) {
+            if (command.catapointId === catapoint._id) {
+              return true;
+            }
+          }
+          return false;
+        })
+      );
+      context.commit(
+        'SET_COMMANDED_TREASURIES',
+        treasuries.data.filter(treasury => {
+          for (const command of commands.data) {
+            if (command.treasuryId === treasury._id) {
+              return true;
+            }
+          }
+          return false;
+        })
+      );
       context.commit('SET_ARTEFACTS', artefacts.data);
       context.commit('SET_COMMANDS', commands.data);
     }

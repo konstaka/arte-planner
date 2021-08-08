@@ -40,6 +40,15 @@ export default {
     state.treasuriesForLarge = treasuries.large;
     state.treasuriesForSmall = treasuries.small;
   },
+  SET_COMMANDED_ARTESWEEPS(state, artesweeps) {
+    state.commandedArtesweeps = artesweeps;
+  },
+  SET_COMMANDED_CATAPOINTS(state, catapoints) {
+    state.commandedCatapoints = catapoints;
+  },
+  SET_COMMANDED_TREASURIES(state, treasuries) {
+    state.commandedTreasuries = treasuries;
+  },
   SET_ARTEFACTS(state, artefacts) {
     state.artefacts = artefacts;
   },

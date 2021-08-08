@@ -26,7 +26,7 @@ const routes = [
   },
   {
     path: '/artesweeps',
-    name: 'Artesweeps',
+    name: 'Sweeps',
     component: Artesweeps,
     roles: ['admin', 'defcoord'],
   },
