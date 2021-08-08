@@ -246,11 +246,14 @@ export default {
           artesweepAccount: this.artesweep.player,
           artesweepId: this.artesweep._id,
           artesweepHero: false,
+          artesweepTime: this.sweepTravelTime(this.artesweep),
           catapointAccount: this.catapoint.player,
           catapointId: this.catapoint._id,
           catapointHero: false,
+          catapointTime: this.catapointTravelTime(this.catapoint),
           treasuryAccount: this.treasury.player,
           treasuryId: this.treasury._id,
+          treasuryTime: this.treasuryTravelTime(this.treasury),
         });
         this.$store.dispatch('updateCycle');
       }

@@ -9,11 +9,14 @@ const CommandSchema = new Schema({
   artesweepAccount: String,
   artesweepId: String,
   artesweepHero: Boolean,
+  artesweepTime: Number,
   catapointAccount: String,
   catapointId: String,
   catapointHero: Boolean,
+  catapointTime: Number,
   treasuryAccount: String,
   treasuryId: String,
+  treasuryTime: Number,
 });
 
 module.exports = mongoose.model('Command', CommandSchema);
