@@ -191,7 +191,6 @@ export default {
           attacker: oldV,
         });
         if (this.artesweepHero) {
-          this.artesweepHero = false;
           this.$store.dispatch('removeSelectedHero', oldV.player);
         }
       }
@@ -200,6 +199,9 @@ export default {
           artefact: this.artefact,
           attacker: newV,
         });
+      }
+      if (this.artesweepHero) {
+        this.artesweepHero = false;
       }
     },
     catapoint(newV, oldV) {
@@ -209,7 +211,6 @@ export default {
           attacker: oldV,
         });
         if (this.catapointHero) {
-          this.catapointHero = false;
           this.$store.dispatch('removeSelectedHero', oldV.player);
         }
       }
@@ -218,6 +219,9 @@ export default {
           artefact: this.artefact,
           attacker: newV,
         });
+      }
+      if (this.catapointHero) {
+        this.catapointHero = false;
       }
     },
     treasury(newV, oldV) {
@@ -235,6 +239,34 @@ export default {
         });
         this.$store.dispatch('addSelectedHero', {
           player: newV.player,
+          artefact: this.artefact,
+        });
+      }
+    },
+    artesweepHero(newV, oldV) {
+      if (!this.artesweep) {
+        return;
+      }
+      if (oldV) {
+        this.$store.dispatch('removeSelectedHero', this.artesweep.player);
+      }
+      if (newV) {
+        this.$store.dispatch('addSelectedHero', {
+          player: this.artesweep.player,
+          artefact: this.artefact,
+        });
+      }
+    },
+    catapointHero(newV, oldV) {
+      if (!this.catapoint) {
+        return;
+      }
+      if (oldV) {
+        this.$store.dispatch('removeSelectedHero', this.catapoint.player);
+      }
+      if (newV) {
+        this.$store.dispatch('addSelectedHero', {
+          player: this.catapoint.player,
           artefact: this.artefact,
         });
       }
