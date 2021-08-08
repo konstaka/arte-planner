@@ -240,6 +240,7 @@ export default {
         this.$store.dispatch('addSelectedHero', {
           player: newV.player,
           artefact: this.artefact,
+          slot: 'treasury',
         });
       }
     },
@@ -254,6 +255,7 @@ export default {
         this.$store.dispatch('addSelectedHero', {
           player: this.artesweep.player,
           artefact: this.artefact,
+          slot: 'artesweep',
         });
       }
     },
@@ -268,6 +270,7 @@ export default {
         this.$store.dispatch('addSelectedHero', {
           player: this.catapoint.player,
           artefact: this.artefact,
+          slot: 'catapoint',
         });
       }
     },

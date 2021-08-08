@@ -75,16 +75,20 @@ export function checkAvailability(attacker, artefact, { considerSelections }) {
         comparableArteSize(attacker.clearWithoutHero) <
           comparableArteSize(artefact.size) &&
         Object.keys(store.state.selectedHeroes).includes(attacker.player) &&
-        store.state.selectedHeroes[attacker.player] !== artefact._id
+        (store.state.selectedHeroes[attacker.player].artefactId !==
+          artefact._id ||
+          store.state.selectedHeroes[attacker.player].slot !== 'artesweep')
       ) {
         return false;
       }
     }
-    // cannot use treasury due to hero already selected
+    // cannot use treasury due to hero already selected for a different slot
     if (
       attacker.treasuryLvl &&
       Object.keys(store.state.selectedHeroes).includes(attacker.player) &&
-      store.state.selectedHeroes[attacker.player] !== artefact._id
+      (store.state.selectedHeroes[attacker.player].artefactId !==
+        artefact._id ||
+        store.state.selectedHeroes[attacker.player].slot !== 'treasury')
     ) {
       return false;
     }
