@@ -43,8 +43,17 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
 // Auth middlewares before accessing other routes
-app.use(checkToken);
-app.use(checkAccess);
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    req.authorizedUser = {
+      roles: ['admin'],
+    };
+    next();
+  });
+} else {
+  app.use(checkToken);
+  app.use(checkAccess);
+}
 
 // Routes
 const settingsRouter = require('./routes/settings');
