@@ -41,7 +41,7 @@
             {{ formatTravelTime(sweepTravelTime(artesweep)) }}
           </option>
         </select>
-        <HeroCheckbox />
+        <HeroCheckbox v-model="sweepHero" />
       </div>
       <div class="data_item dropdown_parent">
         <select v-model="catapoint" class="dropdown">
@@ -62,7 +62,7 @@
             {{ formatTravelTime(catapointTravelTime(catapoint)) }}
           </option>
         </select>
-        <HeroCheckbox />
+        <HeroCheckbox v-model="catapointHero" />
       </div>
       <div class="data_item dropdown_parent">
         <select v-model="treasury" class="dropdown">
@@ -115,6 +115,8 @@ export default {
     catapoint: null,
     treasury: null,
     collapsed: false,
+    sweepHero: false,
+    catapointHero: false,
   }),
   computed: {
     dynamicClasses() {
@@ -163,11 +165,15 @@ export default {
     shortestTime() {
       return getShortestTime(this.artefact, {
         considerSelections: false,
+        sweepHero: this.sweepHero,
+        cataHero: this.cataHero,
       });
     },
     shortestTimeWithSelections() {
       return getShortestTime(this.artefact, {
         considerSelections: true,
+        sweepHero: this.sweepHero,
+        cataHero: this.cataHero,
       });
     },
     timeLostWithSelections() {
@@ -226,10 +232,14 @@ export default {
       return capitalise(str);
     },
     sweepTravelTime(attacker) {
-      return getFetcherTravelTime(this.artefact, attacker, {});
+      return getFetcherTravelTime(this.artefact, attacker, {
+        hero: this.sweepHero,
+      });
     },
     catapointTravelTime(attacker) {
-      return getFetcherTravelTime(this.artefact, attacker, {});
+      return getFetcherTravelTime(this.artefact, attacker, {
+        hero: this.catapointHero,
+      });
     },
     treasuryTravelTime(attacker) {
       return getFetcherTravelTime(this.artefact, attacker, { hero: true });
@@ -256,11 +266,11 @@ export default {
           artefactId: this.artefact._id,
           artesweepAccount: this.artesweep.player,
           artesweepId: this.artesweep._id,
-          artesweepHero: false,
+          artesweepHero: this.sweepHero,
           artesweepTime: this.sweepTravelTime(this.artesweep),
           catapointAccount: this.catapoint.player,
           catapointId: this.catapoint._id,
-          catapointHero: false,
+          catapointHero: this.catapointHero,
           catapointTime: this.catapointTravelTime(this.catapoint),
           treasuryAccount: this.treasury.player,
           treasuryId: this.treasury._id,

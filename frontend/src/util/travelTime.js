@@ -127,7 +127,9 @@ export const getShortestTime = (artefact, options) => {
       ...(store.state.artesweeps || [])
         .filter(attacker => checkAvailability(attacker, artefact, options))
         .map(attacker =>
-          getFetcherTravelTime(artefact, attacker, { hero: false })
+          getFetcherTravelTime(artefact, attacker, {
+            hero: options.sweepHero,
+          })
         ),
       Number.MAX_SAFE_INTEGER
     ),
@@ -135,7 +137,9 @@ export const getShortestTime = (artefact, options) => {
       ...(store.state.catapoints || [])
         .filter(attacker => checkAvailability(attacker, artefact, options))
         .map(attacker =>
-          getFetcherTravelTime(artefact, attacker, { hero: false })
+          getFetcherTravelTime(artefact, attacker, {
+            hero: options.catapointHero,
+          })
         ),
       Number.MAX_SAFE_INTEGER
     ),

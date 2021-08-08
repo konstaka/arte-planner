@@ -79,8 +79,20 @@ export default {
           return false;
         })
       );
+      const commandedHeroes = [];
+      for (const command of commands.data) {
+        if (command.artesweepHero) {
+          commandedHeroes.push(command.artesweepAccount);
+        }
+        if (command.catapointHero) {
+          commandedHeroes.push(command.catapointAccount);
+        }
+        commandedHeroes.push(command.treasuryAccount);
+      }
+      context.commit('SET_COMMANDED_HEROES', commandedHeroes);
       context.commit('SET_ARTEFACTS', artefacts.data);
       context.commit('SET_COMMANDS', commands.data);
+      context.commit('SET_SELECTIONS', {});
     }
     context.commit('LOADED');
   },

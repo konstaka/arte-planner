@@ -49,11 +49,17 @@ export default {
   SET_COMMANDED_TREASURIES(state, treasuries) {
     state.commandedTreasuries = treasuries;
   },
+  SET_COMMANDED_HEROES(state, commandedHeroes) {
+    state.commandedHeroes = commandedHeroes;
+  },
   SET_ARTEFACTS(state, artefacts) {
     state.artefacts = artefacts;
   },
   SET_COMMANDS(state, commands) {
     state.commands = commands;
+  },
+  SET_SELECTIONS(state, selections) {
+    state.selections = selections;
   },
   ADD_SELECTION(state, { artefact, attacker }) {
     const selections = { ...state.selections };

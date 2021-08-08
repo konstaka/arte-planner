@@ -8,12 +8,12 @@
     <div class="data_item attacker">
       SWEEP: {{ artesweep.player }} ({{ artesweep.xCoord }}|{{
         artesweep.yCoord
-      }})
+      }}) {{ command.artesweepHero ? '+hero' : '' }}
     </div>
     <div class="data_item attacker">
       CATAPOINT: {{ catapoint.player }} ({{ catapoint.xCoord }}|{{
         catapoint.yCoord
-      }})
+      }}) {{ command.catapointHero ? '+hero' : '' }}
     </div>
     <div class="data_item attacker">
       TREASURY: {{ treasury.player }} ({{ treasury.xCoord }}|{{
@@ -104,7 +104,7 @@ export default {
 }
 
 .attacker {
-  width: 21%;
+  width: 24%;
 }
 
 .coords {
