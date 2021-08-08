@@ -128,7 +128,7 @@ export const getShortestTime = (artefact, options) => {
         .filter(attacker => checkAvailability(attacker, artefact, options))
         .map(attacker =>
           getFetcherTravelTime(artefact, attacker, {
-            hero: options.sweepHero,
+            hero: options.artesweepHero,
           })
         ),
       Number.MAX_SAFE_INTEGER

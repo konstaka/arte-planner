@@ -41,7 +41,7 @@
             {{ formatTravelTime(sweepTravelTime(artesweep)) }}
           </option>
         </select>
-        <HeroCheckbox v-model="sweepHero" />
+        <HeroCheckbox v-model="artesweepHero" />
       </div>
       <div class="data_item dropdown_parent">
         <select v-model="catapoint" class="dropdown">
@@ -115,7 +115,7 @@ export default {
     catapoint: null,
     treasury: null,
     collapsed: false,
-    sweepHero: false,
+    artesweepHero: false,
     catapointHero: false,
   }),
   computed: {
@@ -165,14 +165,14 @@ export default {
     shortestTime() {
       return getShortestTime(this.artefact, {
         considerSelections: false,
-        sweepHero: this.sweepHero,
+        artesweepHero: this.artesweepHero,
         cataHero: this.cataHero,
       });
     },
     shortestTimeWithSelections() {
       return getShortestTime(this.artefact, {
         considerSelections: true,
-        sweepHero: this.sweepHero,
+        artesweepHero: this.artesweepHero,
         cataHero: this.cataHero,
       });
     },
@@ -190,6 +190,10 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
+        if (this.artesweepHero) {
+          this.artesweepHero = false;
+          this.$store.dispatch('removeSelectedHero', oldV.player);
+        }
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
@@ -204,6 +208,10 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
+        if (this.catapointHero) {
+          this.catapointHero = false;
+          this.$store.dispatch('removeSelectedHero', oldV.player);
+        }
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
@@ -218,11 +226,16 @@ export default {
           artefact: this.artefact,
           attacker: oldV,
         });
+        this.$store.dispatch('removeSelectedHero', oldV.player);
       }
       if (newV) {
         this.$store.dispatch('addSelection', {
           artefact: this.artefact,
           attacker: newV,
+        });
+        this.$store.dispatch('addSelectedHero', {
+          player: newV.player,
+          artefact: this.artefact,
         });
       }
     },
@@ -233,7 +246,7 @@ export default {
     },
     sweepTravelTime(attacker) {
       return getFetcherTravelTime(this.artefact, attacker, {
-        hero: this.sweepHero,
+        hero: this.artesweepHero,
       });
     },
     catapointTravelTime(attacker) {
@@ -261,12 +274,11 @@ export default {
     },
     async confirm() {
       if (this.confirmEnabled) {
-        console.log('sending commands');
         await api().post('/commands', {
           artefactId: this.artefact._id,
           artesweepAccount: this.artesweep.player,
           artesweepId: this.artesweep._id,
-          artesweepHero: this.sweepHero,
+          artesweepHero: this.artesweepHero,
           artesweepTime: this.sweepTravelTime(this.artesweep),
           catapointAccount: this.catapoint.player,
           catapointId: this.catapoint._id,

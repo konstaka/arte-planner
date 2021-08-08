@@ -63,9 +63,29 @@ export function checkAvailability(attacker, artefact, { considerSelections }) {
         selections++;
       }
     }
-    // catapoint.artefacts is used up
+    // catapoint used up in selections
     // or not a catapoint, and listed as a selection for some other artefact than this
     if (selections >= (attacker.artefacts || 1)) {
+      return false;
+    }
+
+    // insufficient clear size due to hero already selected
+    if (attacker.clearWithoutHero) {
+      if (
+        comparableArteSize(attacker.clearWithoutHero) <
+          comparableArteSize(artefact.size) &&
+        Object.keys(store.state.selectedHeroes).includes(attacker.player) &&
+        store.state.selectedHeroes[attacker.player] !== artefact._id
+      ) {
+        return false;
+      }
+    }
+    // cannot use treasury due to hero already selected
+    if (
+      attacker.treasuryLvl &&
+      Object.keys(store.state.selectedHeroes).includes(attacker.player) &&
+      store.state.selectedHeroes[attacker.player] !== artefact._id
+    ) {
       return false;
     }
   }

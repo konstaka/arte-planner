@@ -101,6 +101,7 @@ export default {
       );
       context.commit('SET_COMMANDS', commands.data);
       context.commit('SET_SELECTIONS', {});
+      context.commit('SET_SELECTED_HEROES', {});
     }
     context.commit('LOADED');
   },
@@ -109,5 +110,11 @@ export default {
   },
   async removeSelection(context, args) {
     context.commit('REMOVE_SELECTION', args);
+  },
+  async addSelectedHero(context, args) {
+    context.commit('ADD_SELECTED_HERO', args);
+  },
+  async removeSelectedHero(context, args) {
+    context.commit('REMOVE_SELECTED_HERO', args);
   },
 };

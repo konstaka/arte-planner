@@ -76,4 +76,17 @@ export default {
     }
     state.selections = selections;
   },
+  SET_SELECTED_HEROES(state, heroes) {
+    state.selectedHeroes = heroes;
+  },
+  ADD_SELECTED_HERO(state, { player, artefact }) {
+    const newSelectedHeroes = { ...state.selectedHeroes };
+    newSelectedHeroes[player] = artefact._id;
+    state.selectedHeroes = newSelectedHeroes;
+  },
+  REMOVE_SELECTED_HERO(state, player) {
+    const newSelectedHeroes = { ...state.selectedHeroes };
+    delete newSelectedHeroes[player];
+    state.selectedHeroes = newSelectedHeroes;
+  },
 };
