@@ -24,17 +24,15 @@ export default {
           return true;
         })
       );
-      context.commit(
-        'SET_CATAPOINTS',
-        catapoints.data.filter(catapoint => {
-          for (const command of commands.data) {
-            if (command.catapointId === catapoint._id) {
-              return false;
-            }
+      const adjustedCatapoints = [...catapoints.data];
+      for (const catapoint of adjustedCatapoints) {
+        for (const command of commands.data) {
+          if (command.catapointId === catapoint._id) {
+            catapoint.artefacts--;
           }
-          return true;
-        })
-      );
+        }
+      }
+      context.commit('SET_CATAPOINTS', adjustedCatapoints);
       context.commit(
         'SET_TREASURIES',
         treasuries.data.filter(treasury => {
@@ -51,17 +49,6 @@ export default {
         artesweeps.data.filter(artesweep => {
           for (const command of commands.data) {
             if (command.artesweepId === artesweep._id) {
-              return true;
-            }
-          }
-          return false;
-        })
-      );
-      context.commit(
-        'SET_COMMANDED_CATAPOINTS',
-        catapoints.data.filter(catapoint => {
-          for (const command of commands.data) {
-            if (command.catapointId === catapoint._id) {
               return true;
             }
           }
@@ -90,7 +77,28 @@ export default {
         commandedHeroes.push(command.treasuryAccount);
       }
       context.commit('SET_COMMANDED_HEROES', commandedHeroes);
-      context.commit('SET_ARTEFACTS', artefacts.data);
+      context.commit(
+        'SET_ARTEFACTS',
+        artefacts.data.filter(artefact => {
+          for (const command of commands.data) {
+            if (command.artefactId === artefact._id) {
+              return false;
+            }
+          }
+          return true;
+        })
+      );
+      context.commit(
+        'SET_COMMANDED_ARTEFACTS',
+        artefacts.data.filter(artefact => {
+          for (const command of commands.data) {
+            if (command.artefactId === artefact._id) {
+              return true;
+            }
+          }
+          return false;
+        })
+      );
       context.commit('SET_COMMANDS', commands.data);
       context.commit('SET_SELECTIONS', {});
     }

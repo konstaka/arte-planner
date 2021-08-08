@@ -32,7 +32,7 @@ export default {
   props: ['command'],
   computed: {
     artefact() {
-      return this.$store.state.artefacts.find(
+      return this.$store.state.commandedArtefacts.find(
         storedArte => storedArte._id === this.command.artefactId
       );
     },
@@ -42,7 +42,7 @@ export default {
       );
     },
     catapoint() {
-      return this.$store.state.commandedCatapoints.find(
+      return this.$store.state.catapoints.find(
         storedCatapoint => storedCatapoint._id === this.command.catapointId
       );
     },

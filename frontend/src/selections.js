@@ -16,7 +16,7 @@ export function comparableArteSize(arteSize) {
 }
 
 export function checkAvailability(attacker, artefact, { considerSelections }) {
-  // insufficient clear size
+  // insufficient clear size in any case
   if (attacker.clearWithHero) {
     if (
       comparableArteSize(attacker.clearWithHero) <
@@ -26,14 +26,31 @@ export function checkAvailability(attacker, artefact, { considerSelections }) {
     }
   }
 
-  // insufficient treasury level
-  if (attacker.treasuryLvl) {
+  // insufficient clear size due to hero already commanded
+  if (attacker.clearWithoutHero) {
     if (
-      comparableArteSize(attacker.treasuryLvl) <
-      comparableArteSize(artefact.size)
+      comparableArteSize(attacker.clearWithoutHero) <
+        comparableArteSize(artefact.size) &&
+      store.state.commandedHeroes.includes(attacker.player)
     ) {
       return false;
     }
+  }
+
+  // insufficient treasury level or hero already commanded
+  if (attacker.treasuryLvl) {
+    if (
+      comparableArteSize(attacker.treasuryLvl) <
+        comparableArteSize(artefact.size) ||
+      store.state.commandedHeroes.includes(attacker.player)
+    ) {
+      return false;
+    }
+  }
+
+  // catapoint used up in commands
+  if (attacker.artefacts < 1) {
+    return false;
   }
 
   if (considerSelections) {

@@ -43,9 +43,6 @@ export default {
   SET_COMMANDED_ARTESWEEPS(state, artesweeps) {
     state.commandedArtesweeps = artesweeps;
   },
-  SET_COMMANDED_CATAPOINTS(state, catapoints) {
-    state.commandedCatapoints = catapoints;
-  },
   SET_COMMANDED_TREASURIES(state, treasuries) {
     state.commandedTreasuries = treasuries;
   },
@@ -54,6 +51,9 @@ export default {
   },
   SET_ARTEFACTS(state, artefacts) {
     state.artefacts = artefacts;
+  },
+  SET_COMMANDED_ARTEFACTS(state, artefacts) {
+    state.commandedArtefacts = artefacts;
   },
   SET_COMMANDS(state, commands) {
     state.commands = commands;

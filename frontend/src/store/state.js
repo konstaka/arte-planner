@@ -41,6 +41,7 @@ const initialState = {
   catapoints: [],
   treasuries: [],
   selections: {},
+  commandedArtefacts: [],
   commandedArtesweeps: [],
   commandedCatapoints: [],
   commandedTreasuries: [],
