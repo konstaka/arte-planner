@@ -30,6 +30,12 @@ const get = async (entityType) => {
   return result;
 };
 
+const getOne = async (entityType, id) => {
+  const EntityModel = entities[entityType];
+  const result = await EntityModel.findById(id);
+  return result;
+};
+
 const remove = async (entityType, id) => {
   const EntityModel = entities[entityType];
   const res = await EntityModel.findByIdAndDelete(id);
@@ -39,5 +45,6 @@ const remove = async (entityType, id) => {
 module.exports = {
   save,
   get,
+  getOne,
   remove,
 };

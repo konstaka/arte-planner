@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const HttpStatus = require('http-status-codes');
 const Command = require('../models/Command');
+const { sendLaunchNotifications } = require('../util/discord');
 
 router.post('/', async (req, res) => {
   try {
@@ -11,6 +12,7 @@ router.post('/', async (req, res) => {
       return;
     }
     const command = await new Command(req.body).save();
+    sendLaunchNotifications(req.body);
     res.location(`/commands/${command._id}`);
     res.status(HttpStatus.CREATED).end();
   } catch (e) {

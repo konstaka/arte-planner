@@ -91,6 +91,7 @@ import { capitalise } from '@/util/stringUtils';
 import { getFetcherTravelTime, getShortestTime } from '@/util/travelTime';
 import { checkAvailability } from '@/selections';
 import HeroCheckbox from './HeroCheckbox.vue';
+import api from '@/util/api';
 export default {
   name: 'ArtefactRow',
   components: { HeroCheckbox },
@@ -237,9 +238,21 @@ export default {
         artesweep.clearWithoutHero.substring(0, 1)
       )}/${capitalise(artesweep.clearWithHero.substring(0, 1))}`;
     },
-    confirm() {
+    async confirm() {
       if (this.confirmEnabled) {
         console.log('sending commands');
+        await api().post('/commands', {
+          artefactId: this.artefact._id,
+          artesweepAccount: this.artesweep.player,
+          artesweepId: this.artesweep._id,
+          artesweepHero: false,
+          catapointAccount: this.catapoint.player,
+          catapointId: this.catapoint._id,
+          catapointHero: false,
+          treasuryAccount: this.treasury.player,
+          treasuryId: this.treasury._id,
+        });
+        this.$store.dispatch('updateCycle');
       }
     },
   },
