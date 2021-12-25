@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
 // Auth middlewares before accessing other routes
 if (process.env.NODE_ENV === 'development') {
+  console.log('Bypassing auth in dev');
   app.use((req, res, next) => {
     req.authorizedUser = {
       roles: ['admin'],

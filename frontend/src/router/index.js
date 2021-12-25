@@ -67,18 +67,24 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
 
-  // For other pages, check user auth status
-  // Jut see if token exists
-  const idToken = Vue.$cookies.get('id_token');
-  if (!idToken) {
-    store.commit('SIGN_OUT');
-    next('/login');
-    return;
+  if (process.env.NODE_ENV === 'development') {
+    store.commit('SIGN_IN');
+    store.commit('SET_USER_ROLES', ['admin']);
+  } else {
+    // For other pages, check user auth status
+    // Jut see if token exists
+    const idToken = Vue.$cookies.get('id_token');
+    if (!idToken) {
+      store.commit('SIGN_OUT');
+      next('/login');
+      return;
+    }
+
+    // User is signed in
+    store.commit('SIGN_IN');
+    store.commit('SET_USER_ROLES', Vue.$cookies.get('roles').split(','));
   }
 
-  // User is signed in
-  store.commit('SIGN_IN');
-  store.commit('SET_USER_ROLES', Vue.$cookies.get('roles').split(','));
   if (!store.state.loaded) {
     await store.dispatch('updateCycle');
   }
