@@ -1,6 +1,10 @@
 <template>
   <div class="attacker_row">
     <div class="data_item explain_text">Add new:</div>
+    <div class="data_item player_name">
+      account
+      <input v-model="player" class="coord_box wide" />
+    </div>
     <div class="data_item inputs">
       x
       <input v-model.number="xCoord" type="number" class="coord_box" />
@@ -62,6 +66,7 @@ export default {
   },
   props: ['unitSpeeds', 'tsLevels', 'heroBoots', 'arteSizes'],
   data: () => ({
+    player: '',
     xCoord: null,
     yCoord: null,
     unitSpeed: 3,
@@ -74,6 +79,7 @@ export default {
   methods: {
     async addAttacker() {
       await api().post('/artesweeps', {
+        player: this.player,
         xCoord: this.xCoord,
         yCoord: this.yCoord,
         unitSpeed: this.unitSpeed,
@@ -115,10 +121,18 @@ export default {
   position: relative;
 }
 
+.player_name {
+  width: 10%;
+}
+
 .coord_box {
   width: 42px;
   margin-right: 15px;
   position: initial;
+}
+
+.wide {
+  width: 80px;
 }
 
 input {
