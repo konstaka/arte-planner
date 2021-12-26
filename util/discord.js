@@ -29,15 +29,14 @@ const sendLaunchNotifications = async (command) => {
     ].sort((a, b) => b.time - a.time);
     console.log('%O', timing);
     // prettier-ignore
-    const content = `
+    const content = `----------------------------------------\n
     Targeting ${capitalise(artefact.size)} ${capitalise(artefact.type)} (${artefact.xCoord}|${artefact.yCoord}):\n
-      SWEEP - ${artesweep.player} (${artesweep.xCoord}|${artesweep.yCoord}); ${command.artesweepHero ? 'WITH HERO' : 'NO HERO'}\n
-      CATAPOINT - ${catapoint.player} (${catapoint.xCoord}|${catapoint.yCoord}); ${command.catapointHero ? 'WITH HERO' : 'NO HERO'}\n
-      TREASURY - ${treasury.player} (${treasury.xCoord}|${treasury.yCoord})\n
-    ${capitalise(timing[0].type)} sends first, ${timing[1].type} +${formatTime(timing[0].time - timing[1].time)}, ${timing[2].type} +${formatTime(timing[0].time - timing[2].time)}.
-    Make sure to communicate the times with everyone involved. GO!!!`;
+      SWEEP - ${artesweep.player} (${artesweep.xCoord}|${artesweep.yCoord}); ${command.artesweepHero ? 'WITH HERO' : 'NO HERO'}; traveltime ${formatTime(command.artesweepTime)}
+      CATAS - ${catapoint.player} (${catapoint.xCoord}|${catapoint.yCoord}); ${command.catapointHero ? 'WITH HERO' : 'NO HERO'}; traveltime ${formatTime(command.catapointTime)}
+      HERO - ${treasury.player} (${treasury.xCoord}|${treasury.yCoord}); traveltime ${formatTime(command.treasuryTime)}\n
+    ${capitalise(timing[0].type)} sends first. COORDINATE TIMES BEFORE SENDING. GO!!!\n\n----------------------------------------`;
     console.log(content);
-    // await axios.post(discord, { content });
+    await axios.post(discord, { content });
   }
 };
 
