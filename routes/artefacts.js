@@ -30,6 +30,36 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/', async (req, res) => {
+  try {
+    if (!req.body) {
+      res.status(HttpStatus.BAD_REQUEST).end();
+      return;
+    }
+    const existingArtefacts = await get('artefact');
+    console.log(existingArtefacts);
+    console.log(req.body);
+    const newArtefacts = req.body.filter(
+      (newArtefact) =>
+        !existingArtefacts.some(
+          (existingArtefact) =>
+            newArtefact.xCoord === existingArtefact.xCoord &&
+            newArtefact.yCoord === existingArtefact.yCoord
+        )
+    );
+    console.log(newArtefacts);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const newArtefact of newArtefacts) {
+      // eslint-disable-next-line no-await-in-loop
+      await save('artefact', newArtefact);
+    }
+    res.status(HttpStatus.OK).json(newArtefacts.length);
+  } catch (e) {
+    console.log(e);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).end();
+  }
+});
+
 router.put('/:id', async (req, res) => {
   try {
     if (!req.body) {

@@ -13,7 +13,7 @@
 
 <script>
 import { mapIdtoCoordinates } from '@/util/mapId';
-// import api from '@/util/api';
+import api from '@/util/api';
 export default {
   name: 'Artefacts',
   data: () => ({
@@ -29,6 +29,7 @@ export default {
       type10: 'confusion',
       typeFool: 'fool',
     },
+    parsedArtefacts: [],
   }),
   methods: {
     /**
@@ -74,8 +75,7 @@ export default {
       const mapId = source.substr(beginMapId, mapIdLength);
       const { x: xCoord, y: yCoord } = mapIdtoCoordinates(
         mapId,
-        801 // TEST VALUE
-        // this.$store.state.serverConfig.size * 2 + 1
+        this.$store.state.serverConfig.size * 2 + 1
       );
 
       return { xCoord, yCoord, type, size };
@@ -86,9 +86,21 @@ export default {
         const parsedArtefact = this.readArtefact(source, parseSize);
         if (parsedArtefact) {
           console.log(parsedArtefact);
-          // await api().put('/artefacts', parsedArtefact);
+          this.parsedArtefacts.push(parsedArtefact);
         }
       }
+      const addedArtefactsCount = (
+        await api().put('/artefacts', this.parsedArtefacts)
+      ).data;
+      window.VoerroModal.show({
+        title: 'Done!',
+        body: `Added ${addedArtefactsCount} artefact(s).`,
+        buttons: [
+          {
+            text: 'Ok',
+          },
+        ],
+      });
       this.$store.dispatch('updateCycle');
     },
     async parseSmall() {
