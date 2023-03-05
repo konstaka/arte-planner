@@ -40,13 +40,34 @@ const make_quads = () => {
         NW[200 - i][200 - j] = '[+]';
       }
       // artefact radii
-      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 240) {
+      // SA    251
+      // SB    227
+      // SE    100
+      // SD    200
+      // ST    177
+      // SS    151
+      // SC    126
+      // SF    188
+      // LA    75
+      // LB    94
+      // LE    186
+      // LD    112
+      // LT    130
+      // LS    150
+      // LC    168
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 251) {
         NE[200 - i][j] = '[X]';
         SE[i][j] = '[X]';
         SW[i][200 - j] = '[X]';
         NW[200 - i][200 - j] = '[X]';
       }
-      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 220) {
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 227) {
+        NE[200 - i][j] = '[X]';
+        SE[i][j] = '[X]';
+        SW[i][200 - j] = '[X]';
+        NW[200 - i][200 - j] = '[X]';
+      }
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 100) {
         NE[200 - i][j] = '[X]';
         SE[i][j] = '[X]';
         SW[i][200 - j] = '[X]';
@@ -58,11 +79,36 @@ const make_quads = () => {
         SW[i][200 - j] = '[X]';
         NW[200 - i][200 - j] = '[X]';
       }
-      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 180) {
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 177) {
         NE[200 - i][j] = '[X]';
         SE[i][j] = '[X]';
         SW[i][200 - j] = '[X]';
         NW[200 - i][200 - j] = '[X]';
+      }
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 151) {
+        NE[200 - i][j] = '[X]';
+        SE[i][j] = '[X]';
+        SW[i][200 - j] = '[X]';
+        NW[200 - i][200 - j] = '[X]';
+      }
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 126) {
+        NE[200 - i][j] = '[X]';
+        SE[i][j] = '[X]';
+        SW[i][200 - j] = '[X]';
+        NW[200 - i][200 - j] = '[X]';
+      }
+      if (Math.round(Math.sqrt(i ** 2 + j ** 2)) === 186) {
+        NE[200 - i][j] = '[X]';
+        SE[i][j] = '[X]';
+        SW[i][200 - j] = '[X]';
+        NW[200 - i][200 - j] = '[X]';
+      }
+      // special squares
+      if (i === 189 && j === 138) {
+        NE[200 - i][j] = '[M]';
+      }
+      if (i === 190 && j === 120) {
+        NE[200 - i][j] = '[M]';
       }
     }
   }
